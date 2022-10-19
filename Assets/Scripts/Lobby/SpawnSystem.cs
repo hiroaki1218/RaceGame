@@ -6,8 +6,9 @@ using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SpawnSystem : MonoBehaviour
+public class SpawnSystem : MonoBehaviourPunCallbacks
 {
+    public Renderer CarRenderer;
     PhotonView myPV;
     GameObject myPlayerAvatar;
 
@@ -38,6 +39,7 @@ public class SpawnSystem : MonoBehaviour
             Debug.Log($"My Number is { myNumberInRoom }");
             //Playerオブジェクトのスポーン
             myPlayerAvatar = PhotonNetwork.Instantiate("Player", LobbyGameController.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
+            ColorSet();
         }         
     }
 
@@ -48,6 +50,16 @@ public class SpawnSystem : MonoBehaviour
             Debug.Log($"My Number is { myNumberInRoom }");
             //Playerオブジェクトのスポーン
             myPlayerAvatar = PhotonNetwork.Instantiate("Player", GameMap1Controller.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
+        }
+    }
+
+    [PunRPC]
+    void ColorSet()
+    {
+        if (myPV.IsMine)
+        {
+            CarRenderer = GameObject.Find("Player(Clone)").GetComponent<Renderer>();
+            CarRenderer.material.color = Color.blue;
         }
     }
 }

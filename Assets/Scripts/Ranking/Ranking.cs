@@ -76,9 +76,7 @@ public class Ranking : MonoBehaviour
                     dot = twodigit * 10 + onedigit;
                 }
                 RankingText[score.Position].text = $"{score.Position + 1}ˆÊ:{score.DisplayName}" + " " + $"{min}•ª{sec}•b{dot}";
-                Debug.Log("Loading...");
             }
-            Debug.Log("Load completed!");
             //ranking‚Ìƒ[ƒh‚ªŠ®—¹‚µ‚½Žž
             StartCoroutine(RankingLoadCompleted());
         }, error =>
