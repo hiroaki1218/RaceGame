@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class ColorChange : MonoBehaviourPunCallbacks
 {
     public static ColorChange instance;
-    public GameObject Car;
-    public Renderer CarRenderer;
+    public Color[] PLAYER_COLOR = new Color[] { Color.white, Color.red, Color.green, Color.blue, Color.yellow };
+    public int PickedColorNum;
 
     private void Awake()
     {
@@ -17,13 +17,13 @@ public class ColorChange : MonoBehaviourPunCallbacks
             instance = this;
         }
     }
-    private void Start()
-    {
-        DontDestroyOnLoad(this);
-    }
 
-    public void OnClickColorChangeButton()
+    //色チェンジのボタン押したとき色決定
+    public void OnClickColorChangeButton(int colorIndex)
     {
-        CarRenderer.material.color = Color.blue;
+        PickedColorNum = colorIndex;
+        var playerObject = GameObject.Find("Player");
+        playerObject.transform.GetChild(3).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
+        playerObject.transform.GetChild(6).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
     }
 }

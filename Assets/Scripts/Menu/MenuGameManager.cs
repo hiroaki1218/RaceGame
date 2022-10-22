@@ -61,6 +61,7 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
         MatchCancelButton.SetActive(true);
         allPlayers = PhotonNetwork.PlayerList;
         Debug.Log("Joined Lobby!");
+        Debug.Log(allPlayers.Length);
         inRoom = true;
     }
 

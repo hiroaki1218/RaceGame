@@ -5,8 +5,10 @@ using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using System.Collections.Generic;
+using Photon.Realtime;
+using System.Collections;
 
-public class MyPlayerController : MonoBehaviour
+public class MyPlayerController : MonoBehaviourPunCallbacks
 {
     public static MyPlayerController instance;
 
@@ -14,7 +16,7 @@ public class MyPlayerController : MonoBehaviour
     {
         if(instance == null)
         {
-            instance = this;
+            instance = this; 
         }
     }
 

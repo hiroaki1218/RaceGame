@@ -15,16 +15,16 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     public static GameMap1Controller instance;
     public Transform[] spawnPoints;
     [SerializeField] LoadingScene loadingscene;
-    bool Waiting;
+    public bool Waiting;
     int allReadyPlayers;
     int allGoalCount;
     bool isMyGoal;
     int myGoalmin;
     int myGoalsec;
-    float min;
-    float sec;
-    int timermin;
-    int timersec;
+    public float min;
+    public float sec;
+    public int timermin;
+    public int timersec;
     int scoremin;
     int scoresec;
     bool sceneChanged;
@@ -50,7 +50,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
                 if (allGoalCount != PhotonNetwork.CurrentRoom.PlayerCount)
                 {
                     //全員準備完了し、まだ全員ゴールしてなかったら、カウント
-                    photonView.RPC(nameof(TimerCountUp), RpcTarget.AllViaServer);
+                    Timer.TimerCountUp();
                 }
                 else
                 {
@@ -134,22 +134,17 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
                 }
                 yield return new WaitForSeconds(1);
             }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.CurrentRoom.SetStartTime(PhotonNetwork.ServerTimestamp);
+            }
+
             Waiting = false;
             StartTimerText.text = null;
         }
     }
-    [PunRPC]
-    void TimerCountUp()
-    {
-        //最初のカウントダウンが終わったら開始 
-        sec += Time.deltaTime;
-        timersec = (int)(sec * 100);
-        if (sec >= 60)
-        {
-            timermin++;
-            sec = 0;
-        }
-    }
+
     [PunRPC]
     void GoalCount()
     {

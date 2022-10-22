@@ -67,4 +67,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f91a95467eedf46ae5f582cf50a82d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarRenderer: {fileID: 3183592080468121453, guid: 58152479d2333c34091f811fda290221, type: 3}
+  myNumberInRoom: 0
