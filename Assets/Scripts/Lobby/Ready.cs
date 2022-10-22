@@ -60,7 +60,8 @@ public class Ready : MonoBehaviourPunCallbacks
         {
             if (!SceneChanged)
             {
-                photonView.RPC(nameof(SceneChangeToGameScene), RpcTarget.AllViaServer); 
+                CancelButton.SetActive(false);
+                StartCoroutine(SceneChangeProgress());
                 SceneChanged = true;
             }
         }
@@ -92,12 +93,5 @@ public class Ready : MonoBehaviourPunCallbacks
         allReadyCount--;
         CountText.text = $"èÄîıäÆóπ:{allReadyCount}/{PhotonNetwork.CurrentRoom.PlayerCount}";
         Debug.Log(allReadyCount);
-    }
-
-    [PunRPC]
-    void SceneChangeToGameScene()
-    {
-        CancelButton.SetActive(false);
-        StartCoroutine(SceneChangeProgress());
     }
 }

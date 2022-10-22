@@ -68,7 +68,7 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         //•”‰®‚ª‚È‚©‚Á‚½‚ç©•ª‚Åì‚é
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 1}, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2}, TypedLobby.Default);
     }
 
     //‚à‚µ“ñl‚¾‚Á‚½‚çƒV[ƒ“ˆÚ“®
