@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using Unity.Collections;
+using Photon.Pun;
 
 public class Login : MonoBehaviour
 {
@@ -16,11 +17,8 @@ public class Login : MonoBehaviour
     [SerializeField] Text passnumChr;
     [SerializeField] Text namenumChr;
     [SerializeField] Text ErrorOrSuccessText;
-    public static LoginWithPlayFabRequest _request;
 
-    public static string SessionTicket;
-    public static string EntityId;
-
+    public static string MyNickName;
     private void Start()
     {
         NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
@@ -44,24 +42,15 @@ public class Login : MonoBehaviour
             RequireBothUsernameAndEmail = false
         };
         PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnError);
-
-
-        var Request = new LoginWithPlayFabRequest
-        {
-            Password = inputPassword.text,
-            Username = inputName.text,
-        };
-
-        _request = Request;
     }
+
     void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        SessionTicket = result.SessionTicket;
-        EntityId = result.EntityToken.Entity.Id;
         Debug.Log("Registered And Logged In!");
         ErrorOrSuccessText.text = "登録＆ログイン成功！";
         NameEnter();
         StartCoroutine(LoginCanvasSetActiveFalse());
+        Debug.Log("MyNickName is" + MyNickName);
     }
 
     //Login
@@ -80,10 +69,12 @@ public class Login : MonoBehaviour
         {
             Password = "123456",
             Username = inputName.text,
+            InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+            {
+                GetPlayerProfile = true
+            }
         };
         PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnError);
-
-       _request = request;
     } 
         
     //色が戻るまで数秒まつ
@@ -97,8 +88,9 @@ public class Login : MonoBehaviour
     {
         Debug.Log("Logged In!");
         ErrorOrSuccessText.text = "ログイン成功！";
+        MyNickName = result.InfoResultPayload.PlayerProfile.DisplayName;
+        Debug.Log("MyNickName is" + MyNickName);
         StartCoroutine(LoginCanvasSetActiveFalse());
-        EntityId = result.EntityToken.Entity.Id;
     }
     //ログイン画面消すまで数秒まつ
     IEnumerator LoginCanvasSetActiveFalse()
@@ -127,7 +119,8 @@ public class Login : MonoBehaviour
             DisplayName = inputName.text
         }, result =>
         {
-            Debug.Log("プレイヤー名：" + result.DisplayName);
+            MyNickName = result.DisplayName;
+            Debug.Log("MyNickName is：" + result.DisplayName);
         }, error => Debug.LogError(error.GenerateErrorReport()));
     }
     void OnError(PlayFabError error)

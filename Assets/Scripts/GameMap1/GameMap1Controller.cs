@@ -35,10 +35,18 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
         Waiting = true;
         photonView.RPC(nameof(ReadyCount), RpcTarget.AllViaServer);
         instance = this;
-        SpawnSystem.instance.SpawnPlayerInGame();
+        //Player Spawn
+        StartCoroutine(SpawnDelay());
         isMyGoal = false;
         sceneChanged = false;
         leavedRoom = false;
+    }
+
+    //スポーンまで少し時間かける
+    IEnumerator SpawnDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SpawnSystem.instance.SpawnPlayerInGame();
     }
 
     private void FixedUpdate()
@@ -120,6 +128,8 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     }
     IEnumerator StartCountDown()
     {
+        //ロード長引いた時間
+        yield return new WaitForSeconds(2);
         if (Waiting)
         {
             for (int i = 3; i >= 0; i--)

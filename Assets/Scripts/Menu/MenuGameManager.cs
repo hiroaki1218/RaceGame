@@ -68,7 +68,7 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         //部屋がなかったら自分で作る
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2}, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 1}, TypedLobby.Default);
     }
 
     //もし二人だったらシーン移動
@@ -80,6 +80,8 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
             {
                 if (PhotonNetwork.CurrentRoom.MaxPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
                 {
+                    //プレイヤーネーム決定
+                    PhotonNetwork.NickName = Login.MyNickName;
                     //途中参加防止
                     PhotonNetwork.CurrentRoom.IsOpen = false;
                     //マッチキャンセルボタン消す

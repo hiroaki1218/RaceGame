@@ -3,9 +3,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ColorChange : MonoBehaviourPunCallbacks
 {
+    public GameObject PlayerUI;
     public static ColorChange instance;
     public Color[] PLAYER_COLOR = new Color[] { Color.white, Color.red, Color.green, Color.blue, Color.yellow };
     public int PickedColorNum;
@@ -16,6 +18,12 @@ public class ColorChange : MonoBehaviourPunCallbacks
         {
             instance = this;
         }
+    }
+
+    //プレイヤーのUIは非表示
+    private void Start()
+    {
+        PlayerUI.SetActive(false);
     }
 
     //色チェンジのボタン押したとき色決定

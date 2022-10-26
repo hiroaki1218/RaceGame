@@ -54,7 +54,7 @@ public class Ready : MonoBehaviourPunCallbacks
     }
 
     //もし準備完了してる人が全員だったら、ゲームシーンへ
-    private void Update()
+    private void FixedUpdate()
     {
         if(allReadyCount == PhotonNetwork.CurrentRoom.PlayerCount)
         {

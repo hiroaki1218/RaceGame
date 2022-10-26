@@ -12,6 +12,14 @@ public class LobbyGameController : MonoBehaviourPunCallbacks
     private void Start()
     {
         instance = this;
+        //Player Spawn
+        StartCoroutine(SpawnDelay());
+    }
+
+    //ÉXÉ|Å[ÉìÇ‹Ç≈è≠Çµéûä‘Ç©ÇØÇÈ
+    IEnumerator SpawnDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
         SpawnSystem.instance.SpawnPlayerInLobby();
     }
 }
