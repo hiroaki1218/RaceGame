@@ -9,7 +9,7 @@ public class ColorChange : MonoBehaviourPunCallbacks
 {
     public GameObject PlayerUI;
     public static ColorChange instance;
-    public Color[] PLAYER_COLOR = new Color[] { Color.white, Color.red, Color.green, Color.blue, Color.yellow };
+    public Color[] PLAYER_COLOR = new Color[] { Color.red, Color.white, Color.green, Color.blue, Color.yellow, Color.magenta, Color.gray, Color.cyan};
     public int PickedColorNum;
 
     private void Awake()

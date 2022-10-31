@@ -14,9 +14,12 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
 {
     PhotonView myPV;
     GameObject myPlayerAvatar;
+    MyHP _myHP;
 
     public int myNumberInRoom;
     public static SpawnSystem instance;
+
+    bool GetComponentsPlayer;
 
     void Start()
     {
@@ -37,24 +40,48 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
 
     public void SpawnPlayerInLobby()
     {
+        //Playerオブジェクトのスポーン
+        myPlayerAvatar = PhotonNetwork.Instantiate("Player", LobbyGameController.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
+        //まだHPやUIのコンポーネントを取得していない
+        GetComponentsPlayer = false;
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
-        //Playerオブジェクトのスポーン
-        myPlayerAvatar = PhotonNetwork.Instantiate("Player", LobbyGameController.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
         //色をカスタムプロパティに設定
         SetPlayerColor(ColorChange.instance.PickedColorNum);
     }
 
     public void SpawnPlayerInGame()
     {
+        //Playerオブジェクトのスポーン
+        myPlayerAvatar = PhotonNetwork.Instantiate("Player", GameMap1Controller.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
+        //まだHPやUIのコンポーネントを取得していない
+        GetComponentsPlayer = false;
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
-        //Playerオブジェクトのスポーン
-        myPlayerAvatar = PhotonNetwork.Instantiate("Player", GameMap1Controller.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
         SetPlayerColor(ColorChange.instance.PickedColorNum);
     }
+
+    //もし、全員のスポーンが完了していたら、HPやUIのコンポーネントを取得
+    //private void FixedUpdate()
+    //{
+        //if(SceneManager.GetActiveScene().name != "Menu")
+        //{
+            //if (!GetComponentsPlayer)
+            //{
+                //if (IsSpawnedPlayer())
+                //{
+                    //if (myPV.IsMine)
+                    //{
+                        //Debug.Log("SpawnSystem mine");
+                        
+                        //GetComponentsPlayer = true;
+                    //}
+                //}
+            //}
+        //}
+    //}
 
     //名前をカスタムプロパティに設定
     public void SetPlayerName(string PlayerName)
@@ -98,6 +125,27 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             GameObject child = parent.transform.GetChild(0).gameObject;
             TextMeshProUGUI playerNameText = child.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             playerNameText.text = PlayerName;
+
+            //Camera UI
+            if(targetPlayer != PhotonNetwork.LocalPlayer)
+            {
+                GameObject myUI = playerObject.transform.Find("MyUI").gameObject;
+                GameObject myCamera = playerObject.transform.Find("MyCamera").gameObject;
+
+                myUI.SetActive(false);
+                myCamera.SetActive(false);
+
+                _myHP = playerObject.GetComponent<MyHP>();
+                _myHP.GetComponentsHP();
+            }
+            else
+            {
+                GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
+                toOtherUI.SetActive(false);
+                _myHP = playerObject.GetComponent<MyHP>();
+                _myHP.GetComponentsHP();
+            }
+
             return;
         }
     }
@@ -106,5 +154,18 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     public string GetPlayerName(Player player)
     {
         return (player.CustomProperties["N"] is string name) ? name : string.Empty;
+    }
+
+    //スポーンしたかどうか
+    public bool IsSpawnedPlayer()
+    {
+        if (GameObject.FindGameObjectsWithTag("Player").Length == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

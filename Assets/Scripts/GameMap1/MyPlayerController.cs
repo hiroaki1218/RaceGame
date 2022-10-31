@@ -8,36 +8,22 @@ using System.Collections.Generic;
 using Photon.Realtime;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 public class MyPlayerController : MonoBehaviourPunCallbacks
 {
     public static MyPlayerController instance;
     GameObject myUI;
+    GameObject toOtherUI;
     GameObject myCamera;
+
+    bool IsGetComponents;
 
     private void Awake()
     {
         if(instance == null)
         {
             instance = this; 
-        }
-    }
-
-    //プレイヤースポーン後のUI、カメラの管理
-    void FixedUpdate()
-    {
-        myUI = transform.Find("UI").gameObject;
-        myCamera = transform.Find("Camera").gameObject;
-
-        if (photonView.IsMine)
-        {
-            myUI.SetActive(false);
-            myCamera.SetActive(true);
-        }
-        else
-        {
-            myUI.SetActive(true);
-            myCamera.SetActive(false);
         }
     }
 

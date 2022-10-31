@@ -52,6 +52,7 @@ MonoBehaviour:
   - SpawnPlayerInLobby
   - ColorChange
   - ColorChangeMyCar
+  - CurrentHPBarToOther
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
