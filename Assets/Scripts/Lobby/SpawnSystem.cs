@@ -47,6 +47,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
+        //選択したキャラの種類をカスタムプロパティに設定
+        SetCharacterRole(CharacterRoleChange.instance.state);
         //色をカスタムプロパティに設定
         SetPlayerColor(ColorChange.instance.PickedColorNum);
     }
@@ -60,6 +62,9 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
+        //選択したキャラの種類をカスタムプロパティに設定
+        SetCharacterRole(CharacterRoleChange.instance.state);
+        //色をカスタムプロパティに設定
         SetPlayerColor(ColorChange.instance.PickedColorNum);
     }
 
@@ -101,12 +106,22 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
-    //カスタムプロパティから色を取得し、全員に反映
+    //キャラをカスタムプロパティに設定
+    public void SetCharacterRole(int CharacterNum)
+    {
+        var properties = new ExitGames.Client.Photon.Hashtable();
+        properties["R"] = CharacterNum;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+
+    //カスタムプロパティから要素を取得し、全員に反映
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedColor)
     {
         var properties = changedColor;
 
-        object colorValue = null;
+        object colorValue = null; 
+
         if (properties.TryGetValue("C", out colorValue))
         {
             int colorIndex = (int)colorValue;
@@ -118,6 +133,11 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             //カラー
             playerObject.transform.GetChild(3).gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
             playerObject.transform.GetChild(6).gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
+
+            //キャラ
+            int CharacterNum = GetPlayerPickedCharacter(targetPlayer);
+            GameObject CharacterParent = playerObject.transform.Find("MyCharacter").gameObject;
+            CharacterParent.transform.GetChild(CharacterNum).gameObject.SetActive(true);
 
             //Name
             string PlayerName = GetPlayerName(targetPlayer);
@@ -154,6 +174,12 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     public string GetPlayerName(Player player)
     {
         return (player.CustomProperties["N"] is string name) ? name : string.Empty;
+    }
+
+    //カスタムプロパティからキャラの種類を返す
+    public int GetPlayerPickedCharacter(Player player)
+    {
+        return (player.CustomProperties["R"] is int chr) ? chr : Random.Range(0,5);
     }
 
     //スポーンしたかどうか
