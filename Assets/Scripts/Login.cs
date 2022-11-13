@@ -19,8 +19,10 @@ public class Login : MonoBehaviour
     [SerializeField] Text ErrorOrSuccessText;
 
     public static string MyNickName;
+    public static bool isLoggedin;
     private void Start()
     {
+        isLoggedin = false;
         NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
     }
     //ìoò^
@@ -51,6 +53,7 @@ public class Login : MonoBehaviour
         NameEnter();
         StartCoroutine(LoginCanvasSetActiveFalse());
         Debug.Log("MyNickName is" + MyNickName);
+        isLoggedin = true;
     }
 
     //Login
@@ -86,6 +89,7 @@ public class Login : MonoBehaviour
     }
     void OnLoginSuccess(LoginResult result)
     {
+        isLoggedin = true;
         Debug.Log("Logged In!");
         ErrorOrSuccessText.text = "ÉçÉOÉCÉìê¨å˜ÅI";
         MyNickName = result.InfoResultPayload.PlayerProfile.DisplayName;

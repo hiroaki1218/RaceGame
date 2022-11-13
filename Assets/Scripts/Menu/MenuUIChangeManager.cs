@@ -12,6 +12,7 @@ public class MenuUIChangeManager : MonoBehaviour
     [SerializeField] GameObject CarColorChangeUI;
     [SerializeField] GameObject CharacterChangeUI;
     [SerializeField] GameObject ItemUI;
+    [SerializeField] GameObject RankingUI;
     public static int MenuState;
 
     void Start()
@@ -19,6 +20,7 @@ public class MenuUIChangeManager : MonoBehaviour
         CarColorChangeUI.SetActive(false);
         CharacterChangeUI.SetActive(false);
         ItemUI.SetActive(false);
+        RankingUI.SetActive(false);
     }
 
     public void OnClickMunuChangeButton(int t)
@@ -32,6 +34,7 @@ public class MenuUIChangeManager : MonoBehaviour
         CarColorChangeUI.SetActive(false);
         CharacterChangeUI.SetActive(false);
         ItemUI.SetActive(false);
+        RankingUI.SetActive(false);
 
         MenuState = t;
         if (t == 0)
@@ -53,10 +56,17 @@ public class MenuUIChangeManager : MonoBehaviour
             //キャラ変カメラ
             MenuCameraManager.instance.CharacterChangeCameraActive();
         }
-        else if( t == 3)
+        else if(t == 3)
         {
             //アイテム説明
             ItemUI.SetActive(true);
+            //アイテム、ランキングのカメラ
+            MenuCameraManager.instance.ItemAndRankingCameraActive();
+        }
+        else if(t == 4)
+        {
+            //ランキング
+            RankingUI.SetActive(true);
             //アイテム、ランキングのカメラ
             MenuCameraManager.instance.ItemAndRankingCameraActive();
         }

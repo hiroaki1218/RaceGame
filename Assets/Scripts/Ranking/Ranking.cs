@@ -22,9 +22,51 @@ public class Ranking : MonoBehaviour
     int min;
     int sec;
     int dot;
+
+    bool isfirstGot;
+    bool getting;
+
+    float timer;
+    int timersec;
     private void Start()
     {
-        GetLeaderboard();
+        isfirstGot = false;
+        getting = false;
+        if (SceneManager.GetActiveScene().name == "Ranking")
+        {
+            GetLeaderboard();
+        }
+    }
+
+    //Menuシーンのみ、ログイン後にランキングを取得
+    private void Update()
+    {
+        if (Login.isLoggedin)
+        {
+            if (!isfirstGot)
+            {
+                GetLeaderboard();
+                isfirstGot = true;
+            }
+            CountUp();
+        }    
+    }
+
+    //10秒ごとにランキングを取得
+    void CountUp()
+    {
+        timer += Time.deltaTime;
+        timersec = (int)timer;
+        if(timersec >= 30)
+        {
+            timer = 0;
+            if (!getting)
+            {
+                Debug.Log("get");
+                GetLeaderboard();
+                getting = true;
+            }
+        }
     }
 
     public void GetLeaderboard()
@@ -79,6 +121,7 @@ public class Ranking : MonoBehaviour
             }
             //rankingのロードが完了した時
             StartCoroutine(RankingLoadCompleted());
+            getting = false;
         }, error =>
         {
             Debug.Log(error.GenerateErrorReport());
