@@ -8,9 +8,12 @@ using System;
 using System.Collections;
 using Unity.Collections;
 using Photon.Pun;
+using TMPro;
 
 public class Login : MonoBehaviour
 {
+    [SerializeField] Button _loginButton;
+    [SerializeField] Button _registerButton;
     [SerializeField] public GameObject FirstLoginCanvas;
     [SerializeField] InputField inputPassword;
     [SerializeField] InputField inputName;
@@ -18,12 +21,24 @@ public class Login : MonoBehaviour
     [SerializeField] Text namenumChr;
     [SerializeField] Text ErrorOrSuccessText;
 
+    [Header("Playerの名前UI")]
+    [SerializeField] TextMeshProUGUI MyNameText;
+
+    [Header("Buttons")]
+    [SerializeField] Color normalColor;
+    [SerializeField] Color pushedColor;
+    [SerializeField] Image _loginbutton;
+    [SerializeField] Image _registerbutton;
+
     public static string MyNickName;
     public static bool isLoggedin;
     private void Start()
     {
         isLoggedin = false;
         NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
+        _loginButton.enabled = true;
+        _registerButton.enabled = true;
+        MyNameText.text = null;
     }
     //登録
     public void RegisterButton()
@@ -35,6 +50,15 @@ public class Login : MonoBehaviour
             Debug.Log("Nameの文字数が正しくありません。");
             StartCoroutine(ColorBack());
             return;
+        }
+        else
+        {
+            //1度押せないようにする
+            _loginButton.enabled = false;
+            _registerButton.enabled = false;
+
+            _loginbutton.color = normalColor;
+            _registerbutton.color = pushedColor;
         }
 
         var request = new RegisterPlayFabUserRequest
@@ -67,6 +91,15 @@ public class Login : MonoBehaviour
             StartCoroutine(ColorBack());
             return;
         }
+        else
+        {
+            //1度押せないようにする
+            _loginButton.enabled = false;
+            _registerButton.enabled = false;
+
+            _loginbutton.color = pushedColor;
+            _registerbutton.color = normalColor;
+        }
         //合ってるかどうか
         var request = new LoginWithPlayFabRequest
         {
@@ -93,6 +126,7 @@ public class Login : MonoBehaviour
         Debug.Log("Logged In!");
         ErrorOrSuccessText.text = "ログイン成功！";
         MyNickName = result.InfoResultPayload.PlayerProfile.DisplayName;
+        MyNameText.text = MyNickName;
         Debug.Log("MyNickName is" + MyNickName);
         StartCoroutine(LoginCanvasSetActiveFalse());
     }
@@ -125,10 +159,18 @@ public class Login : MonoBehaviour
         {
             MyNickName = result.DisplayName;
             Debug.Log("MyNickName is：" + result.DisplayName);
+            MyNameText.text = MyNickName;
         }, error => Debug.LogError(error.GenerateErrorReport()));
     }
     void OnError(PlayFabError error)
     {
+        //押せるようにする
+        _loginButton.enabled = true;
+        _registerButton.enabled = true;
+
+        _loginbutton.color = normalColor;
+        _registerbutton.color = normalColor;
+
         Debug.Log(error.GenerateErrorReport());
         if (error.Error == PlayFabErrorCode.UsernameNotAvailable)
         {

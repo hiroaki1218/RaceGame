@@ -13,6 +13,16 @@ public class MenuUIChangeManager : MonoBehaviour
     [SerializeField] GameObject CharacterChangeUI;
     [SerializeField] GameObject ItemUI;
     [SerializeField] GameObject RankingUI;
+
+    [Header("Buttons")]
+    [SerializeField] Color pushedButtonColor;
+    [SerializeField] Color normalColor;
+    [SerializeField] Image Play;
+    [SerializeField] Image Car;
+    [SerializeField] Image Character;
+    [SerializeField] Image Item;
+    [SerializeField] Image Ranking;
+
     public static int MenuState;
 
     void Start()
@@ -36,23 +46,32 @@ public class MenuUIChangeManager : MonoBehaviour
         ItemUI.SetActive(false);
         RankingUI.SetActive(false);
 
+        Play.color = normalColor;
+        Car.color = normalColor;
+        Character.color = normalColor;
+        Item.color = normalColor;
+        Ranking.color = normalColor;
+
         MenuState = t;
         if (t == 0)
         {
             //Play
             MatchStartButton.SetActive(true);
             MatchCancelButton.SetActive(true);
+            Play.color = pushedButtonColor;
             return;
         }
         else if(t == 1)
         {
             //キャラ色チェンジ
             CarColorChangeUI.SetActive(true);
+            Car.color = pushedButtonColor;
         }
         else if (t == 2)
         {
             //キャラチェンジ
             CharacterChangeUI.SetActive(true);
+            Character.color = pushedButtonColor;
             //キャラ変カメラ
             MenuCameraManager.instance.CharacterChangeCameraActive();
         }
@@ -60,6 +79,7 @@ public class MenuUIChangeManager : MonoBehaviour
         {
             //アイテム説明
             ItemUI.SetActive(true);
+            Item.color = pushedButtonColor;
             //アイテム、ランキングのカメラ
             MenuCameraManager.instance.ItemAndRankingCameraActive();
         }
@@ -67,6 +87,7 @@ public class MenuUIChangeManager : MonoBehaviour
         {
             //ランキング
             RankingUI.SetActive(true);
+            Ranking.color = pushedButtonColor;
             //アイテム、ランキングのカメラ
             MenuCameraManager.instance.ItemAndRankingCameraActive();
         }

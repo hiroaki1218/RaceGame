@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum KindOfCharacter
 { 
@@ -17,6 +18,10 @@ public class CharacterRoleChange : MonoBehaviour
     public KindOfCharacter pickedCharacter;
 
     [SerializeField] GameObject Characters;
+
+    //UI
+    [SerializeField] TextMeshProUGUI CharacterNameText;
+    [SerializeField] TextMeshProUGUI CharacterExplantiorText;
 
     [SerializeField] GameObject Engineer;
     [SerializeField] GameObject Gambler;
@@ -43,6 +48,9 @@ public class CharacterRoleChange : MonoBehaviour
         CharacterChangeAnime = Characters.GetComponent<Animator>();
         canChange = true;
         state = 0;
+
+        CharacterNameText.text = null;
+        CharacterExplantiorText.text = null; 
 
         Engineer.SetActive(true);
         Gambler.SetActive(false);
@@ -80,6 +88,41 @@ public class CharacterRoleChange : MonoBehaviour
             {
                 state = 0;
             }
+        }
+    }
+
+    private void Update()
+    {
+        //stateによってキャラ名とキャラ説明文変更
+        if(state == 0)
+        {
+            //enginner
+            CharacterNameText.text = "エンジニア";
+            CharacterExplantiorText.text = "aaa";
+        }
+        else if (state == 1)
+        {
+            //gambler
+            CharacterNameText.text = "ギャンブラー";
+            CharacterExplantiorText.text = "iii";
+        }
+        else if (state == 2)
+        {
+            //Proracer
+            CharacterNameText.text = "プロレーサー";
+            CharacterExplantiorText.text = "uuu";
+        }
+        else if (state == 3)
+        {
+            //Bomber
+            CharacterNameText.text = "爆弾魔";
+            CharacterExplantiorText.text = "eee";
+        }
+        else if (state == 4)
+        {
+            //Hacker
+            CharacterNameText.text = "ハッカー";
+            CharacterExplantiorText.text = "ooo";
         }
     }
 

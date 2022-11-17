@@ -7,7 +7,7 @@ using TMPro;
 
 public class ColorChange : MonoBehaviourPunCallbacks
 {
-    public GameObject PlayerUI;
+    public GameObject ToOtherPlayerUI;
     public static ColorChange instance;
     public Color[] PLAYER_COLOR = new Color[] { Color.red, Color.white, Color.green, Color.blue, Color.yellow, Color.magenta, Color.gray, Color.cyan};
     public int PickedColorNum;
@@ -20,10 +20,10 @@ public class ColorChange : MonoBehaviourPunCallbacks
         }
     }
 
-    //プレイヤーのUIは非表示
+    //他プレイヤーに向けたUIは非表示
     private void Start()
     {
-        PlayerUI.SetActive(false);
+        ToOtherPlayerUI.SetActive(false);
     }
 
     //色チェンジのボタン押したとき色決定

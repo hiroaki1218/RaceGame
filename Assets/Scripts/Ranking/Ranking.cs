@@ -57,13 +57,14 @@ public class Ranking : MonoBehaviour
     {
         timer += Time.deltaTime;
         timersec = (int)timer;
-        if(timersec >= 30)
+        if(timersec >= 10)
         {
             timer = 0;
             if (!getting)
             {
                 Debug.Log("get");
                 GetLeaderboard();
+                Debug.Log("a");
                 getting = true;
             }
         }
