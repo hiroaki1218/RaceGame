@@ -12,7 +12,7 @@ public class UIRotate : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            mainCameraTransform = transform.Find("MyCamera");
+            mainCameraTransform = GameObject.Find("MyCamera").transform;
             AllUI = GameObject.FindGameObjectsWithTag("OtherUI");
 
             foreach (GameObject uis in AllUI)

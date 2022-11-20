@@ -17,6 +17,25 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     GameObject toOtherUI;
     GameObject myCamera;
 
+    [Header("CarController")]
+    const string HORIZONTAL = "Horizontal";
+    const string VERTICAL = "Vertical";
+
+    float horizontalInput;
+    float verticalInput;
+    float currentsteerAngle;
+    float currentbreakForce;
+    bool isBreaking;
+
+    [SerializeField] float motorForce;
+    [SerializeField] float breakForce;
+    [SerializeField] float maxSteerAngle;
+
+    [SerializeField] WheelCollider FrontR;
+    [SerializeField] WheelCollider FrontL;
+    [SerializeField] WheelCollider BackR;
+    [SerializeField] WheelCollider BackL;
+
     bool IsGetComponents;
 
     private void Awake()
@@ -25,6 +44,49 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         {
             instance = this; 
         }
+    }
+
+    //car‚Ì“®‚«
+    private void Update()
+    {
+        GetInput();
+        HandleMotor();
+        HandleSteering();
+    }
+
+    private void GetInput()
+    {
+        horizontalInput = Input.GetAxis(HORIZONTAL);
+        verticalInput = Input.GetAxis(VERTICAL);
+        isBreaking = Input.GetKey(KeyCode.Space);
+    }
+
+    private void HandleMotor()
+    {
+        FrontL.motorTorque = verticalInput * motorForce;
+        FrontR.motorTorque = verticalInput * motorForce;
+
+        currentbreakForce = isBreaking ? breakForce : 0;
+        if (isBreaking)
+        {
+            ApplyBreaking();
+        }
+    }
+
+    //Break
+    private void ApplyBreaking()
+    {
+        FrontR.brakeTorque = currentbreakForce;
+        FrontL.brakeTorque = currentbreakForce;
+        BackR.brakeTorque = currentbreakForce;
+        BackL.brakeTorque = currentbreakForce;
+    }
+
+    private void HandleSteering()
+    {
+        currentsteerAngle = maxSteerAngle * horizontalInput;
+        FrontL.steerAngle = currentsteerAngle;
+        FrontR.steerAngle = currentsteerAngle;
     }
 
     public void SubmitScore(int playerScore)

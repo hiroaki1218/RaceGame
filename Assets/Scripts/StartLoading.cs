@@ -18,7 +18,7 @@ public class StartLoading : MonoBehaviour
 
     IEnumerator WaitTillStart()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
         StartLoadCanvas.SetActive(false);
     }
 }

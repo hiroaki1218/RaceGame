@@ -150,16 +150,18 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             if(targetPlayer != PhotonNetwork.LocalPlayer)
             {
                 GameObject myUI = playerObject.transform.Find("MyUI").gameObject;
-                GameObject myCamera = playerObject.transform.Find("MyCamera").gameObject;
+                //GameObject myCamera = playerObject.transform.Find("MyCamera").gameObject;
 
                 myUI.SetActive(false);
-                myCamera.SetActive(false);
+                //myCamera.SetActive(false);
 
                 _myHP = playerObject.GetComponent<MyHP>();
                 _myHP.GetComponentsHP();
             }
             else
             {
+                //Camera(new)
+                MyCameraFollow.target = playerObject.transform;
                 GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
                 toOtherUI.SetActive(false);
                 _myHP = playerObject.GetComponent<MyHP>();

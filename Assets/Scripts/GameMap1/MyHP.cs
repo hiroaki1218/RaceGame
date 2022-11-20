@@ -35,7 +35,7 @@ public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
 
         if (myPV.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 takeDamage = 30;
             }
