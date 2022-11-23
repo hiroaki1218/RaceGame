@@ -19,10 +19,11 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     public int myNumberInRoom;
     public static SpawnSystem instance;
 
-    bool GetComponentsPlayer;
+    public bool isAllSpawned;
 
     void Start()
     {
+        isAllSpawned = false;
         instance = this;
         myPV = GetComponent<PhotonView>();
 
@@ -42,8 +43,6 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     {
         //Playerオブジェクトのスポーン
         myPlayerAvatar = PhotonNetwork.Instantiate("Player", LobbyGameController.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
-        //まだHPやUIのコンポーネントを取得していない
-        GetComponentsPlayer = false;
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
@@ -57,8 +56,6 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     {
         //Playerオブジェクトのスポーン
         myPlayerAvatar = PhotonNetwork.Instantiate("Player", GameMap1Controller.instance.spawnPoints[myNumberInRoom].position, Quaternion.identity);
-        //まだHPやUIのコンポーネントを取得していない
-        GetComponentsPlayer = false;
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
@@ -68,25 +65,21 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         SetPlayerColor(ColorChange.instance.PickedColorNum);
     }
 
-    //もし、全員のスポーンが完了していたら、HPやUIのコンポーネントを取得
-    //private void FixedUpdate()
-    //{
-        //if(SceneManager.GetActiveScene().name != "Menu")
-        //{
-            //if (!GetComponentsPlayer)
-            //{
-                //if (IsSpawnedPlayer())
-                //{
-                    //if (myPV.IsMine)
-                    //{
-                        //Debug.Log("SpawnSystem mine");
-                        
-                        //GetComponentsPlayer = true;
-                    //}
-                //}
-            //}
-        //}
-    //}
+    //もし、全員のスポーンが完了していたら
+    private void FixedUpdate()
+    {
+        if(SceneManager.GetActiveScene().name != "Menu")
+        { 
+            if (IsSpawnedPlayer())
+            {
+                isAllSpawned = true;
+            }
+            else
+            {
+                isAllSpawned = false;
+            }
+        }
+    }
 
     //名前をカスタムプロパティに設定
     public void SetPlayerName(string PlayerName)
@@ -162,6 +155,7 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             {
                 //Camera(new)
                 MyCameraFollow.target = playerObject.transform;
+                MyCameraFollow.inputmanager = playerObject.GetComponent<InputManager>();
                 GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
                 toOtherUI.SetActive(false);
                 _myHP = playerObject.GetComponent<MyHP>();

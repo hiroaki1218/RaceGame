@@ -68,3 +68,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myNumberInRoom: 0
+  isAllSpawned: 0

@@ -10,83 +10,303 @@ using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 
+public enum Axel
+{
+    Front,
+    Back,
+}
+
+[System.Serializable]
+public struct CarWheel
+{
+    public WheelCollider collider;
+    public GameObject mesh;
+    public Axel axel;
+}
+
+public enum DriveTrain
+{
+    Four_Wheel,
+    Two_Wheel
+}
+
+
 public class MyPlayerController : MonoBehaviourPunCallbacks
 {
     public static MyPlayerController instance;
-    GameObject myUI;
-    GameObject toOtherUI;
-    GameObject myCamera;
-
-    [Header("CarController")]
-    const string HORIZONTAL = "Horizontal";
-    const string VERTICAL = "Vertical";
-
-    float horizontalInput;
-    float verticalInput;
-    float currentsteerAngle;
-    float currentbreakForce;
-    bool isBreaking;
-
-    [SerializeField] float motorForce;
-    [SerializeField] float breakForce;
-    [SerializeField] float maxSteerAngle;
-
-    [SerializeField] WheelCollider FrontR;
-    [SerializeField] WheelCollider FrontL;
-    [SerializeField] WheelCollider BackR;
-    [SerializeField] WheelCollider BackL;
-
-    bool IsGetComponents;
 
     private void Awake()
     {
         if(instance == null)
         {
-            instance = this; 
+            instance = this;
         }
     }
 
-    //car‚Ì“®‚«
-    private void Update()
+    internal enum driveType
     {
-        GetInput();
-        HandleMotor();
-        HandleSteering();
+        frontWheelDrive,
+        rearWheelDrive,
+        allWheelDrive
     }
 
-    private void GetInput()
+    [SerializeField] private driveType drive;
+
+    private InputManager inputManager;
+    public WheelCollider[] wheels = new WheelCollider[4];
+    private GameObject centerOfMass;
+    private Rigidbody rigidbody;
+    [Header("Varriables")]
+    public float handBrakeFrictionMultiplier = 2f;
+    public float totalPower;
+    public AnimationCurve enginePower;
+    public float engineRPM;
+    public float wheelsRPM;
+    public float smothTime = 0.01f;
+    public float[] gears = new float[5];
+    [Range(0,4)]public int gearNum = 0;
+
+    public float KPH;
+    public float brakePower;
+    public float thrust = 1000;
+    public float radius = 6;
+    public float DownForceValue = 100;
+    public float steeringMax = 4;
+
+    [Header("DEBUG")]
+    public float[] slip = new float[4];
+
+    private WheelFrictionCurve forwardFriction, sidewaysFriction;
+
+
+    private void Start()
     {
-        horizontalInput = Input.GetAxis(HORIZONTAL);
-        verticalInput = Input.GetAxis(VERTICAL);
-        isBreaking = Input.GetKey(KeyCode.Space);
+        getObjects();
+        StartCoroutine(timedLoop());
     }
 
-    private void HandleMotor()
+    private void FixedUpdate()
     {
-        FrontL.motorTorque = verticalInput * motorForce;
-        FrontR.motorTorque = verticalInput * motorForce;
+        moveVehicle();
+        steerVehicle();
+        addDownForce();
+        getFriction();
+        calculateEnginePower();
+        shifter();
+        adjustTraction();
+        checkWheelSpin();
+    }
 
-        currentbreakForce = isBreaking ? breakForce : 0;
-        if (isBreaking)
+    private void calculateEnginePower()
+    {
+        wheelRPM();
+        totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
+        float velocity = 0.0f;
+        engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
+    }
+
+    private void wheelRPM()
+    {
+        float sum = 0;
+        int r = 0;
+        for(int i = 0; i < 4; i++)
         {
-            ApplyBreaking();
+            sum += wheels[i].rpm;
+            r++;
+        }
+        wheelsRPM = (r != 0) ? sum / r : 0;
+    }
+
+    private void shifter()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            gearNum++;
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            gearNum--;
         }
     }
 
-    //Break
-    private void ApplyBreaking()
+    //Car‚Ì“®‚«
+    private void moveVehicle()
     {
-        FrontR.brakeTorque = currentbreakForce;
-        FrontL.brakeTorque = currentbreakForce;
-        BackR.brakeTorque = currentbreakForce;
-        BackL.brakeTorque = currentbreakForce;
+        //4‹ì
+        if (drive == driveType.allWheelDrive)
+        {
+            for (int i = 0; i < wheels.Length; i++)
+            {
+                wheels[i].motorTorque = inputManager.vertical * (totalPower / 4);
+            }
+        }
+        else if (drive == driveType.rearWheelDrive)
+        {
+            for (int i = 2; i < wheels.Length; i++)
+            {
+                wheels[i].motorTorque = inputManager.vertical * (totalPower / 2);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < wheels.Length - 2; i++)
+            {
+                wheels[i].steerAngle = inputManager.vertical * (totalPower / 2);
+            }
+        }
+
+        //‘¬“xŒvŽZ
+        KPH = rigidbody.velocity.magnitude * 3.6f;
+
     }
 
-    private void HandleSteering()
+    private void steerVehicle()
     {
-        currentsteerAngle = maxSteerAngle * horizontalInput;
-        FrontL.steerAngle = currentsteerAngle;
-        FrontR.steerAngle = currentsteerAngle;
+        if(inputManager.horizontal > 0)
+        {
+            wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.25f / (radius + (1.5f / 2))) * inputManager.horizontal;
+            wheels[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.25f / (radius - (1.5f / 2))) * inputManager.horizontal;
+        }
+        else if(inputManager.horizontal < 0)
+        {
+            wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.25f / (radius - (1.5f / 2))) * inputManager.horizontal;
+            wheels[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.25f / (radius + (1.5f / 2))) * inputManager.horizontal;
+        }
+        else
+        {
+            wheels[0].steerAngle = 0;
+            wheels[0].steerAngle = 1;
+        }
+    }
+
+    //InputManager‚ðŽæ“¾
+    private void getObjects()
+    {
+        inputManager = GetComponent<InputManager>();
+        rigidbody = GetComponent<Rigidbody>();
+        centerOfMass = this.transform.Find("mass").gameObject;
+        rigidbody.centerOfMass = centerOfMass.transform.localPosition;
+    }
+
+    private void addDownForce()
+    {
+        rigidbody.AddForce(-transform.up * DownForceValue * rigidbody.velocity.magnitude);
+    }
+
+    private void getFriction()
+    {
+        for(int i = 0; i < wheels.Length; i++)
+        {
+            WheelHit wheelHit;
+            wheels[i].GetGroundHit(out wheelHit);
+
+            slip[i] = wheelHit.forwardSlip;
+        }
+    }
+
+    private float driftFactor;
+    private void adjustTraction()
+    {
+        float driftsmothFactor = .7f * Time.deltaTime;
+
+        if (inputManager.handbreak)
+        {
+            sidewaysFriction = wheels[0].sidewaysFriction;
+            forwardFriction = wheels[0].forwardFriction;
+
+            float velocity = 0;
+            sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = Mathf.SmoothDamp(sidewaysFriction.asymptoteValue, driftFactor, ref velocity, driftsmothFactor);
+            forwardFriction.extremumValue = forwardFriction.asymptoteValue = Mathf.SmoothDamp(forwardFriction.asymptoteValue, driftFactor, ref velocity, driftsmothFactor);
+
+            for (int i = 0; i < 4; i++)
+            {
+                wheels[i].forwardFriction = forwardFriction;
+                wheels[i].sidewaysFriction = sidewaysFriction;
+            }
+
+            sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = 1.1f;
+            forwardFriction.extremumValue = forwardFriction.asymptoteValue = 1.1f;
+
+            for (int i = 0; i < 2; i++)
+            {
+                wheels[i].forwardFriction = forwardFriction;
+                wheels[i].sidewaysFriction = sidewaysFriction;
+            }
+            rigidbody.AddForce(transform.forward * -(KPH - 500) * 10);
+        }
+        else
+        {
+
+            forwardFriction = wheels[0].forwardFriction;
+            sidewaysFriction = wheels[0].sidewaysFriction;
+
+            forwardFriction.extremumValue = forwardFriction.asymptoteValue = ((KPH * handBrakeFrictionMultiplier) / 300) + 1;
+            sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = ((KPH * handBrakeFrictionMultiplier) / 300) + 1;
+
+            for (int i = 0; i < 4; i++)
+            {
+                wheels[i].forwardFriction = forwardFriction;
+                wheels[i].sidewaysFriction = sidewaysFriction;
+            }
+        }
+    }
+
+    private float tempo;
+    private void checkWheelSpin()
+    {
+        float blind = 0.28f;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            rigidbody.AddForce(transform.forward * thrust);
+        }
+        if (inputManager.handbreak)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                WheelHit wheelHit;
+                wheels[i].GetGroundHit(out wheelHit);
+                if (wheelHit.sidewaysSlip > blind || wheelHit.sidewaysSlip < -blind)
+                {
+                    //applyBooster(wheelHit.sidewaysSlip);
+                }
+            }
+        }
+
+        for(int i = 2; i < 4; i++)
+        {
+            WheelHit wheelHit;
+            wheels[i].GetGroundHit(out wheelHit);
+
+            if(wheelHit.sidewaysSlip < 0)
+            {
+                tempo = (1 + -inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip * handBrakeFrictionMultiplier);
+                if (tempo < 0.5) tempo = 0.5f;
+            }
+            if (wheelHit.sidewaysSlip > 0)
+            {
+                tempo = (1 + inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip * handBrakeFrictionMultiplier);
+                if (tempo < 0.5) tempo = 0.5f;
+            }
+            if (wheelHit.sidewaysSlip > 0.99f || wheelHit.sidewaysSlip < -0.99f)
+            {
+                float velocity = 0;
+                driftFactor = Mathf.SmoothDamp(driftFactor,tempo * 3,ref velocity,0.1f * Time.deltaTime);
+            }
+            else
+            {
+                driftFactor = tempo;
+            }
+        }
+    }
+
+    private IEnumerator timedLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.7f);
+            radius = 6 + KPH / 20;
+        }
     }
 
     public void SubmitScore(int playerScore)

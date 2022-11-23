@@ -31,6 +31,7 @@ public class MenuUIChangeManager : MonoBehaviour
         CharacterChangeUI.SetActive(false);
         ItemUI.SetActive(false);
         RankingUI.SetActive(false);
+        Play.color = pushedButtonColor;
     }
 
     public void OnClickMunuChangeButton(int t)
