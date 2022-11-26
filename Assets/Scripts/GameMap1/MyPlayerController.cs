@@ -101,6 +101,10 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     {
         wheelRPM();
         totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
+        if(totalPower <= 0)
+        {
+            totalPower = -totalPower;
+        }
         float velocity = 0.0f;
         engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
     }
@@ -151,7 +155,7 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < wheels.Length - 2; i++)
             {
-                wheels[i].steerAngle = inputManager.vertical * (totalPower / 2);
+                wheels[i].motorTorque = inputManager.vertical * (totalPower / 2);
             }
         }
 

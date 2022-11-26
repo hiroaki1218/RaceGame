@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager instance;
     public float vertical;
     public float horizontal;
     public bool handbreak;
@@ -13,7 +14,7 @@ public class InputManager : MonoBehaviour
     {
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-        handbreak = (Input.GetAxis("Jump") != 0) ? true : false;
+        handbreak = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30) ? true : false;
         if (Input.GetKey(KeyCode.LeftShift)) boosting = true; else boosting = false;
     }
 }

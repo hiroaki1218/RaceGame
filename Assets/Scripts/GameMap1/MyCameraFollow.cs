@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class MyCameraFollow : MonoBehaviour
 {
-    public static InputManager inputmanager;
+    public static MyCameraFollow instance;
+    public InputManager inputmanager;
     [SerializeField] Vector3 offset;
     public static Transform target;
     private Camera mycamera;
     public float speed;
+    public float localspeed;
     public float defaltFOV = 0,desiredFOV = 0;
     [Range(0,5)]public float smothTime = 0;
+    public float speedchange;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
         mycamera = GetComponent<Camera>();
         defaltFOV = mycamera.fieldOfView;
+        speedchange = 1;
     }
 
     private void FixedUpdate()
@@ -23,8 +35,33 @@ public class MyCameraFollow : MonoBehaviour
         if (SpawnSystem.instance.isAllSpawned)
         {
             speed = Mathf.Lerp(speed, MyPlayerController.instance.KPH / 2, Time.deltaTime);
+            localspeed = speed;
         }
-        
+
+        //ドリフト時のカメラスピード調整
+        if (target != null)
+        {
+            if (inputmanager.handbreak)
+            {
+                speedchange -= Time.deltaTime / 8;
+                if(speedchange <= 0.6f)
+                {
+                    speedchange = 0.6f;
+                }
+
+                localspeed = speed * speedchange;
+            }
+            else
+            {
+                speedchange += Time.deltaTime / 7;
+                if (speedchange >= 1f)
+                {
+                    speedchange = 1f;
+                }
+                localspeed = speed * speedchange;
+            }
+        }
+           
         HandleTranslation();
         HandleRotation();
 
@@ -36,10 +73,7 @@ public class MyCameraFollow : MonoBehaviour
         if(target != null)
         {
             var targetPosition = target.TransformPoint(offset);
-            if(!inputmanager.handbreak)
-                transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
-            else
-                transform.position = Vector3.Lerp(transform.position, targetPosition, speed / 1.6f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, localspeed * Time.deltaTime);
         }
     }
 
@@ -49,10 +83,7 @@ public class MyCameraFollow : MonoBehaviour
         {
             var direction = target.position - transform.position;
             var rotation = Quaternion.LookRotation(direction, Vector3.up);
-            if (!inputmanager.handbreak)
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, speed * Time.deltaTime);
-            else
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, speed / 1.6f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, localspeed * Time.deltaTime);
         }
     }
 
