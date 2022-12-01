@@ -81,7 +81,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     private void Update()
     {
         //ÉSÅ[ÉãÇµÇΩéû
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             isMyGoal = true;
             myGoalmin = timermin;

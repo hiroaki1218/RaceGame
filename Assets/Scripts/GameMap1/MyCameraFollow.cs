@@ -41,7 +41,7 @@ public class MyCameraFollow : MonoBehaviour
         //ドリフト時のカメラスピード調整
         if (target != null)
         {
-            if (inputmanager.handbreak)
+            if (inputmanager.handbrake)
             {
                 speedchange -= Time.deltaTime / 8;
                 if(speedchange <= 0.6f)
@@ -89,9 +89,12 @@ public class MyCameraFollow : MonoBehaviour
 
     private void boostFOV()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-            mycamera.fieldOfView = Mathf.Lerp(mycamera.fieldOfView, desiredFOV, Time.deltaTime * smothTime);
-        else
-            mycamera.fieldOfView = Mathf.Lerp(mycamera.fieldOfView, defaltFOV, Time.deltaTime * smothTime);
+        if(target != null)
+        {
+            if (inputmanager.boosting)
+                mycamera.fieldOfView = Mathf.Lerp(mycamera.fieldOfView, desiredFOV, Time.deltaTime * smothTime);
+            else
+                mycamera.fieldOfView = Mathf.Lerp(mycamera.fieldOfView, defaltFOV, Time.deltaTime * smothTime);
+        }
     }
 }

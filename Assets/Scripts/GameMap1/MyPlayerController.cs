@@ -213,7 +213,7 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     {
         float driftsmothFactor = .7f * Time.deltaTime;
 
-        if (inputManager.handbreak)
+        if (inputManager.handbrake)
         {
             sidewaysFriction = wheels[0].sidewaysFriction;
             forwardFriction = wheels[0].forwardFriction;
@@ -236,7 +236,8 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
                 wheels[i].forwardFriction = forwardFriction;
                 wheels[i].sidewaysFriction = sidewaysFriction;
             }
-            rigidbody.AddForce(transform.forward * -(KPH - 500) * 10);
+            //AddForce
+            rigidbody.AddForce(transform.forward * -(KPH - 100) * 40);
         }
         else
         {
@@ -264,7 +265,7 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         {
             rigidbody.AddForce(transform.forward * thrust);
         }
-        if (inputManager.handbreak)
+        if (inputManager.handbrake)
         {
             for(int i = 0; i < 4; i++)
             {

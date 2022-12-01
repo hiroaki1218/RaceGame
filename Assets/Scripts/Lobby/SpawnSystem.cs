@@ -156,6 +156,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
                 //Camera(new)
                 MyCameraFollow.target = playerObject.transform;
                 MyCameraFollow.instance.inputmanager = playerObject.GetComponent<InputManager>();
+                //Boost
+                BoostController.instance.inputmanager = playerObject.GetComponent<InputManager>(); 
                 GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
                 toOtherUI.SetActive(false);
                 _myHP = playerObject.GetComponent<MyHP>();
