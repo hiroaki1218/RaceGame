@@ -1830,55 +1830,14 @@ MonoBehaviour:
   - {fileID: 9154811453348081052}
   - {fileID: 8003341284381411935}
   handBrakeFrictionMultiplier: 1.8
-  totalPower: 0
-  enginePower:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 4771.6147
-      value: 1143.6423
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 5990.6836
-      value: -0.16161823
-      inSlope: -1.7116556
-      outSlope: 0
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.025617057
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  engineRPM: 0
+  enginePower: 1000
   wheelsRPM: 0
   smothTime: 0.01
-  gears:
-  - 1.8
-  - 1.7
-  - 1.3
-  - 0.9
-  - 0.4
-  gearNum: 0
   KPH: 0
   brakePower: 1000
   thrust: 10000
   radius: 6
-  DownForceValue: 50
+  DownForceValue: 100
   steeringMax: 25
   slip:
   - 0
@@ -1905,6 +1864,8 @@ MonoBehaviour:
   currentdriftCount: 0
   driftTime: 0
   driftBoost: 0
+  startBoost: 0
+  canjustStartDash: 0
 --- !u!114 &2508004880699401391
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -58,13 +58,14 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     private Rigidbody rigidbody;
     [Header("Varriables")]
     public float handBrakeFrictionMultiplier = 2f;
-    public float totalPower;
-    public AnimationCurve enginePower;
-    public float engineRPM;
+    //public float totalPower;
+    //public AnimationCurve enginePower;
+    //public float engineRPM;
+    public float enginePower;
     public float wheelsRPM;
     public float smothTime = 0.01f;
-    public float[] gears = new float[5];
-    [Range(0,4)]public int gearNum = 0;
+    //public float[] gears = new float[5];
+    //[Range(0,4)]public int gearNum = 0;
 
     public float KPH;
     public float brakePower;
@@ -91,23 +92,23 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         steerVehicle();
         addDownForce();
         getFriction();
-        calculateEnginePower();
-        shifter();
+        //calculateEnginePower();
+        //shifter();
         adjustTraction();
         checkWheelSpin();
     }
 
-    private void calculateEnginePower()
-    {
-        wheelRPM();
-        totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
-        if(totalPower <= 0)
-        {
-            totalPower = -totalPower;
-        }
-        float velocity = 0.0f;
-        engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
-    }
+    //private void calculateEnginePower()
+    //{
+        //wheelRPM();
+        //totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
+        //if(totalPower <= 0)
+        //{
+            //totalPower = -totalPower;
+        //}
+        //float velocity = 0.0f;
+        //engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
+    //}
 
     private void wheelRPM()
     {
@@ -121,17 +122,17 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         wheelsRPM = (r != 0) ? sum / r : 0;
     }
 
-    private void shifter()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            gearNum++;
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            gearNum--;
-        }
-    }
+    //private void shifter()
+    //{
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+            //gearNum++;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+            //gearNum--;
+        //}
+    //}
 
     //Car‚Ì“®‚«
     private void moveVehicle()
@@ -141,21 +142,21 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = inputManager.vertical * (totalPower / 4);
+                wheels[i].motorTorque = inputManager.vertical * (enginePower / 4);
             }
         }
         else if (drive == driveType.rearWheelDrive)
         {
             for (int i = 2; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = inputManager.vertical * (totalPower / 2);
+                wheels[i].motorTorque = inputManager.vertical * (enginePower / 2);
             }
         }
         else
         {
             for (int i = 0; i < wheels.Length - 2; i++)
             {
-                wheels[i].motorTorque = inputManager.vertical * (totalPower / 2);
+                wheels[i].motorTorque = inputManager.vertical * (enginePower / 2);
             }
         }
 
@@ -237,7 +238,7 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
                 wheels[i].sidewaysFriction = sidewaysFriction;
             }
             //AddForce
-            rigidbody.AddForce(transform.forward * -(KPH - 100) * 40);
+            rigidbody.AddForce(transform.forward * -(KPH - 200) * 40);
         }
         else
         {

@@ -30,6 +30,8 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     bool sceneChanged;
     bool leavedRoom;
 
+    public static bool startboosttime;
+
     private void Start()
     {
         Waiting = true;
@@ -40,6 +42,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
         isMyGoal = false;
         sceneChanged = false;
         leavedRoom = false;
+        startboosttime = false;
     }
 
     //スポーンまで少し時間かける
@@ -129,7 +132,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     IEnumerator StartCountDown()
     {
         //ロード長引いた時間
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
         if (Waiting)
         {
             for (int i = 3; i >= 0; i--)
@@ -137,10 +140,20 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
                 if(i != 0)
                 {
                     StartTimerText.text = i.ToString();
+
+                    if(i == 2)
+                    {
+                        BoostController.instance.canjustStartDash = true;
+                    }
+                    else
+                    {
+                        BoostController.instance.canjustStartDash = false;
+                    }
                 }
                 else
                 {
                     StartTimerText.text = "GO!";
+                    startboosttime = true;
                 }
                 yield return new WaitForSeconds(1);
             }
@@ -150,8 +163,14 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetStartTime(PhotonNetwork.ServerTimestamp);
             }
 
-            Waiting = false;
             StartTimerText.text = null;
+            Waiting = false;  
+        }
+        
+        if(startboosttime)
+        {
+            yield return new WaitForSeconds(1);
+            startboosttime = false;
         }
     }
 

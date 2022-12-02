@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
     {
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-        handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30) ? true : false;
-        if (Input.GetKey(KeyCode.LeftShift) || boostController.driftBoost) boosting = true; else boosting = false;
+        handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal>0.8 || horizontal<-0.8)) ? true : false;
+        if (Input.GetKey(KeyCode.LeftShift) || boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
     }
 }
