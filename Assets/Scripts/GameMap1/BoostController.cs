@@ -14,6 +14,7 @@ public class BoostController : MonoBehaviour
     public float driftCount = 1;
     public float currentdriftCount = 0;
     public float driftTime;
+    public float maxdrifttime = 2.5f;
     public bool driftBoost;
     public bool startBoost;
 
