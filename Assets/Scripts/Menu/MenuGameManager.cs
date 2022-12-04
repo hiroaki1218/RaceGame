@@ -10,7 +10,7 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject MatchStartButton;
     [SerializeField] GameObject MatchCancelButton;
     [SerializeField] TextMeshProUGUI stateText;
-    public static Player[] allPlayers;
+    public static Photon.Realtime.Player[] allPlayers;
     bool inRoom;
     bool isMatched;
 

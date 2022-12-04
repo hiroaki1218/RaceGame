@@ -20,15 +20,21 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     public static SpawnSystem instance;
 
     public bool isAllSpawned;
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
         isAllSpawned = false;
-        instance = this;
         myPV = GetComponent<PhotonView>();
 
         //部屋の中での自分のナンバーカウント
-        foreach (Player p in MenuGameManager.allPlayers)
+        foreach (Photon.Realtime.Player p in MenuGameManager.allPlayers)
         {
             Debug.Log(p);
             if (p != PhotonNetwork.LocalPlayer)
@@ -109,7 +115,7 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     }
 
     //カスタムプロパティから要素を取得し、全員に反映
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedColor)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedColor)
     {
         var properties = changedColor;
 
@@ -169,13 +175,13 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     }
 
     //カスタムプロパティから名前を返す
-    public string GetPlayerName(Player player)
+    public string GetPlayerName(Photon.Realtime.Player player)
     {
         return (player.CustomProperties["N"] is string name) ? name : string.Empty;
     }
 
     //カスタムプロパティからキャラの種類を返す
-    public int GetPlayerPickedCharacter(Player player)
+    public int GetPlayerPickedCharacter(Photon.Realtime.Player player)
     {
         return (player.CustomProperties["R"] is int chr) ? chr : Random.Range(0,5);
     }
