@@ -130,8 +130,9 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             var playerObject = playerObjects.FirstOrDefault(obj => obj.GetComponent<PhotonView>().Owner == targetPlayer);
 
             //ÉJÉâÅ[
-            playerObject.transform.GetChild(3).gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
-            playerObject.transform.GetChild(6).gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
+            GameObject oparent = playerObject.transform.Find("Car").gameObject;
+            oparent.transform.Find("Outside0").gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
+            oparent.transform.Find("Outside1").gameObject.GetComponent<Renderer>().material.color = ColorChange.instance.PLAYER_COLOR[colorIndex];
 
             //ÉLÉÉÉâ
             int CharacterNum = GetPlayerPickedCharacter(targetPlayer);
@@ -140,8 +141,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
 
             //Name
             string PlayerName = GetPlayerName(targetPlayer);
-            GameObject parent = playerObject.transform.GetChild(9).gameObject;
-            GameObject child = parent.transform.GetChild(0).gameObject;
+            GameObject nparent = playerObject.transform.GetChild(1).gameObject;
+            GameObject child = nparent.transform.GetChild(0).gameObject;
             TextMeshProUGUI playerNameText = child.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             playerNameText.text = PlayerName;
 

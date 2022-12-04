@@ -49,7 +49,7 @@ public class SmokeEffectController : MonoBehaviour
                 main.startColor = color;
 
                 ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(30);
+                em.rateOverTime = new ParticleSystem.MinMaxCurve(60);
             }
         }
         else
@@ -61,7 +61,7 @@ public class SmokeEffectController : MonoBehaviour
                 main.startColor = color;
 
                 ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(30);
+                em.rateOverTime = new ParticleSystem.MinMaxCurve(50);
             }
         }
     }
@@ -80,7 +80,7 @@ public class SmokeEffectController : MonoBehaviour
                 main.startColor = color;
 
                 ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(100);
+                em.rateOverTime = new ParticleSystem.MinMaxCurve(120);
             }
         }
         else
@@ -94,7 +94,7 @@ public class SmokeEffectController : MonoBehaviour
                     main.startColor = color;
 
                     ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(80);
+                    em.rateOverTime = new ParticleSystem.MinMaxCurve(120);
                 }
             }
             else if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.3)
@@ -106,7 +106,7 @@ public class SmokeEffectController : MonoBehaviour
                     main.startColor = color;
 
                     ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(60);
+                    em.rateOverTime = new ParticleSystem.MinMaxCurve(100);
                 }
             }
             else if(BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.15)
@@ -118,7 +118,7 @@ public class SmokeEffectController : MonoBehaviour
                     main.startColor = color;
 
                     ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(40);
+                    em.rateOverTime = new ParticleSystem.MinMaxCurve(80);
                 }
             }
             else
@@ -130,17 +130,9 @@ public class SmokeEffectController : MonoBehaviour
                     main.startColor = color;
 
                     ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(35);
+                    em.rateOverTime = new ParticleSystem.MinMaxCurve(60);
                 }
             }
         }
-    }
-
-    private void HandBrakeAnime()
-    {
-        ParticleSystem.MinMaxGradient color = new ParticleSystem.MinMaxGradient();
-        color.mode = ParticleSystemGradientMode.Color;
-
-        
     }
 }

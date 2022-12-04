@@ -31,7 +31,8 @@ public class ColorChange : MonoBehaviourPunCallbacks
     {
         PickedColorNum = colorIndex;
         var playerObject = GameObject.Find("Player");
-        playerObject.transform.GetChild(3).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
-        playerObject.transform.GetChild(6).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
+        GameObject parent = playerObject.transform.Find("Car").gameObject;
+        parent.transform.GetChild(3).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
+        parent.transform.GetChild(6).gameObject.GetComponent<Renderer>().material.color = PLAYER_COLOR[colorIndex];
     }
 }
