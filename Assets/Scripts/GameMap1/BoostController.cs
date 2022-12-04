@@ -19,6 +19,7 @@ public class BoostController : MonoBehaviour
     public bool startBoost;
 
     public bool canjustStartDash;
+    public bool startBoostReady;
     private bool justStartDash;
     private bool ispushing;
 
@@ -39,6 +40,7 @@ public class BoostController : MonoBehaviour
         myrigidbody = GetComponent<Rigidbody>();
         driftBoost = false;
         startBoost = false;
+        startBoostReady = false;
     }
 
     private void Update()
@@ -50,27 +52,35 @@ public class BoostController : MonoBehaviour
             if (canjustStartDash && !ispushing)
             {
                 //Case2:スタートダッシュができる状態かつ完ぺきなタイミングの時
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
                 {
                     justStartDash = true;
+                    startBoostReady = true;
                 }
                 else
                 {
                     justStartDash = false;
+                    startBoostReady = false;
                 }
             }
-            else
+            else if(!GameMap1Controller.isStartedMatch)
             {
                 //Case3:スタートダッシュができない状態
                 //Case4:スタートダッシュができる状態かつ違うタイミングの時
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
                 {
                     ispushing = true;
+                    startBoostReady = true;
                 }
                 else
                 {
                     ispushing = false;
+                    startBoostReady = false;
                 }
+            }
+            else
+            {
+                startBoostReady = false;
             }
 
             //もしスタートダッシュが成功していたら、ブースト処理
@@ -78,6 +88,7 @@ public class BoostController : MonoBehaviour
             {
                 myrigidbody.AddForce(transform.forward * 1800);
                 startBoost = true;
+                startBoostReady = false;
             }
             else
             {

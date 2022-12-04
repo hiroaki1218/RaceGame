@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -19,17 +20,42 @@ public class InputManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        vertical = Input.GetAxis("Vertical");
-        horizontal = Input.GetAxis("Horizontal");
-        if(MyPlayerController.instance.KPH > 10)
+        if (SceneManager.GetActiveScene().name == "GameMap1")
         {
-            isMoving = true;
+            if (GameMap1Controller.isStartedMatch)
+            {
+                vertical = Input.GetAxis("Vertical");
+                horizontal = Input.GetAxis("Horizontal");
+                if (MyPlayerController.instance.KPH > 10)
+                {
+                    isMoving = true;
+                }
+                else
+                {
+                    isMoving = false;
+                }
+                handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
+                if (boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
+            }
+            else
+            {
+                if (BoostController.instance.startBoostReady) boosting = true;else boosting = false;
+            }
         }
         else
         {
-            isMoving = false;
+            vertical = Input.GetAxis("Vertical");
+            horizontal = Input.GetAxis("Horizontal");
+            if (MyPlayerController.instance.KPH > 10)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
+            if (boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
         }
-        handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal>0.8 || horizontal<-0.8)) ? true : false;
-        if (Input.GetKey(KeyCode.LeftShift) || boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
     }
 }

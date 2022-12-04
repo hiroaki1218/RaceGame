@@ -78,12 +78,14 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     public float[] slip = new float[4];
 
     private WheelFrictionCurve forwardFriction, sidewaysFriction;
+    public bool onGround;
 
 
     private void Start()
     {
         getObjects();
         StartCoroutine(timedLoop());
+        onGround = false;
     }
 
     private void FixedUpdate()
@@ -206,6 +208,15 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
             wheels[i].GetGroundHit(out wheelHit);
 
             slip[i] = wheelHit.forwardSlip;
+
+            if(wheelHit.collider == null)
+            {
+                onGround = false;
+            }
+            else if (wheelHit.collider.tag == "Road")
+            {
+                onGround = true;
+            }  
         }
     }
 
@@ -262,10 +273,10 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     {
         float blind = 0.28f;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            rigidbody.AddForce(transform.forward * thrust);
-        }
+        //if (Input.GetKey(KeyCode.LeftShift))
+        //{
+            //rigidbody.AddForce(transform.forward * thrust);
+        //}
         if (inputManager.handbrake)
         {
             for(int i = 0; i < 4; i++)

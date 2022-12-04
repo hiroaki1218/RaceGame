@@ -31,6 +31,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
     bool leavedRoom;
 
     public static bool startboosttime;
+    public static bool isStartedMatch;
 
     private void Start()
     {
@@ -43,6 +44,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
         sceneChanged = false;
         leavedRoom = false;
         startboosttime = false;
+        isStartedMatch = false;
     }
 
     //ÉXÉ|Å[ÉìÇ‹Ç≈è≠Çµéûä‘Ç©ÇØÇÈ
@@ -154,6 +156,7 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
                 {
                     StartTimerText.text = "GO!";
                     startboosttime = true;
+                    isStartedMatch = true;
                 }
                 yield return new WaitForSeconds(1);
             }

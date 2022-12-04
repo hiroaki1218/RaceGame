@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 119147435}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -633,11 +633,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00165ca6fa4525a499de817c6a6973ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputmanager: {fileID: 0}
   offset: {x: 0, y: 1, z: -4}
   speed: 0
+  localspeed: 0
   defaltFOV: 0
   desiredFOV: 120
   smothTime: 5
+  speedchange: 0
 --- !u!81 &293736742
 AudioListener:
   m_ObjectHideFlags: 0
