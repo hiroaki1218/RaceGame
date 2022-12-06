@@ -6,11 +6,12 @@ TagManager:
   tags:
   - OtherUI
   - Road
+  - MiniMap
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MiniMap
   - Water
   - UI
   - 

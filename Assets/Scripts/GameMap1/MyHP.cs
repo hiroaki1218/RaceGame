@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
 {
     private const float MaxHP = 100f;
+    public static float increaseHP = 4;
 
     [SerializeField] public Slider myHPBar = default;
     [SerializeField] public Slider toOtherHPBar = default;
@@ -53,7 +54,7 @@ public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 // 入力がなかったら、スタミナを回復させる
-                currentHP = currentHP + Time.deltaTime * 4;
+                currentHP = currentHP + Time.deltaTime * increaseHP;
                 if (currentHP >= MaxHP)
                 {
                     currentHP = MaxHP;

@@ -80,16 +80,19 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     private WheelFrictionCurve forwardFriction, sidewaysFriction;
     public bool onGround;
 
+    PhotonView myPV;
 
     private void Start()
     {
         getObjects();
         StartCoroutine(timedLoop());
         onGround = false;
+        myPV = GetComponent<PhotonView>();
     }
 
     private void FixedUpdate()
     {
+        if (!myPV.IsMine) return;
         moveVehicle();
         steerVehicle();
         addDownForce();

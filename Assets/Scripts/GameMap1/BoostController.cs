@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class BoostController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class BoostController : MonoBehaviour
     private bool justStartDash;
     private bool ispushing;
 
+    PhotonView myPV;
+
     private void Awake()
     {
         if(instance == null)
@@ -41,10 +44,13 @@ public class BoostController : MonoBehaviour
         driftBoost = false;
         startBoost = false;
         startBoostReady = false;
+        myPV = GetComponent<PhotonView>();
     }
 
     private void Update()
     {
+        if (!myPV.IsMine) return;
+        
         //スタートダッシュ
         if(SceneManager.GetActiveScene().name == "GameMap1")
         {
