@@ -15,6 +15,7 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     PhotonView myPV;
     GameObject myPlayerAvatar;
     MyHP _myHP;
+    BoostController _boostController;
 
     public int myNumberInRoom;
     public static SpawnSystem instance;
@@ -164,7 +165,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
                 MyCameraFollow.target = playerObject.transform;
                 MyCameraFollow.instance.inputmanager = playerObject.GetComponent<InputManager>();
                 //Boost
-                BoostController.instance.inputmanager = playerObject.GetComponent<InputManager>(); 
+                _boostController = playerObject.GetComponent<BoostController>();
+                _boostController.inputmanager = playerObject.GetComponent<InputManager>(); 
                 GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
                 toOtherUI.SetActive(false);
                 _myHP = playerObject.GetComponent<MyHP>();
