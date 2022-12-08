@@ -1858,7 +1858,7 @@ MonoBehaviour:
   - {fileID: 2264228347966352398}
   - {fileID: 9154811453348081052}
   - {fileID: 8003341284381411935}
-  handBrakeFrictionMultiplier: 1.8
+  handBrakeFrictionMultiplier: 2.25
   enginePower: 1000
   wheelsRPM: 0
   smothTime: 0.01
@@ -1866,8 +1866,8 @@ MonoBehaviour:
   brakePower: 1000
   thrust: 10000
   radius: 6
-  DownForceValue: 100
-  steeringMax: 25
+  DownForceValue: 150
+  steeringMax: 35
   slip:
   - 0
   - 0

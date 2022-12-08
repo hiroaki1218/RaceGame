@@ -14,7 +14,15 @@ public class Timer : MonoBehaviour
         // ゲームの経過時間を求めて、小数第一位まで表示する
         float elapsedTime = Mathf.Max(0f, unchecked(PhotonNetwork.ServerTimestamp - timestamp) / 1000f);
 
-        GameMap1Controller.instance.sec = elapsedTime;
+        if(elapsedTime <= 60)
+        {
+            GameMap1Controller.instance.sec = elapsedTime;
+        }
+        else
+        {
+            GameMap1Controller.instance.sec = elapsedTime - (60 * GameMap1Controller.instance.timermin);
+        }
+        
         GameMap1Controller.instance.timersec = (int)(GameMap1Controller.instance.sec * 100);
         if (GameMap1Controller.instance.sec >= 60)
         {

@@ -21,5 +21,21 @@ public class PlayerAbility : MonoBehaviour
         {
             MyHP.increaseHP = 4 * 1.3f;
         }
+        else if(myCharacter == KindOfCharacter.Gambler)
+        {
+
+        }
+        else if (myCharacter == KindOfCharacter.Proracer)
+        {
+
+        }
+        else if (myCharacter == KindOfCharacter.Bomber)
+        {
+
+        }
+        else if (myCharacter == KindOfCharacter.Hacker)
+        {
+
+        }
     }
 }
