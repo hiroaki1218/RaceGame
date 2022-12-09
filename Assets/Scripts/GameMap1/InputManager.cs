@@ -31,6 +31,7 @@ public class InputManager : MonoBehaviour
         boostController = GetComponent<BoostController>();
         isMoving = false;
         myPV = GetComponent<PhotonView>();
+        myPlayerController = GetComponent<MyPlayerController>();
     }
     private void FixedUpdate()
     {
