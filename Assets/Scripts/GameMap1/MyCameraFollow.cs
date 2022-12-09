@@ -33,9 +33,8 @@ public class MyCameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (SpawnSystem.instance.isAllSpawned)
+        if (SpawnSystem.instance.isAllSpawned && myPlayerController != null)
         {
-            Debug.Log("í«ê’äJén");
             speed = Mathf.Lerp(speed, myPlayerController.KPH / 2, Time.deltaTime);
             localspeed = speed;
         }

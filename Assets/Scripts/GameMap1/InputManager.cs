@@ -8,7 +8,8 @@ using Photon.Pun;
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
-    public BoostController boostController;
+    public MyPlayerController myPlayerController;
+    public BoostController boostController; 
     public bool isMoving;
     public float vertical;
     public float horizontal;
@@ -16,6 +17,14 @@ public class InputManager : MonoBehaviour
     public bool boosting;
 
     PhotonView myPV;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -33,7 +42,7 @@ public class InputManager : MonoBehaviour
                 {
                     vertical = Input.GetAxis("Vertical");
                     horizontal = Input.GetAxis("Horizontal");
-                    if (MyPlayerController.instance.KPH > 10)
+                    if (myPlayerController.KPH > 10)
                     {
                         isMoving = true;
                     }
@@ -41,19 +50,19 @@ public class InputManager : MonoBehaviour
                     {
                         isMoving = false;
                     }
-                    handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
+                    handbrake = (Input.GetKey(KeyCode.Space) && myPlayerController.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
                     if (boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
                 }
                 else
                 {
-                    if (BoostController.instance.startBoostReady) boosting = true; else boosting = false;
+                    if (boostController.startBoostReady) boosting = true; else boosting = false;
                 }
             }
             else
             {
                 vertical = Input.GetAxis("Vertical");
                 horizontal = Input.GetAxis("Horizontal");
-                if (MyPlayerController.instance.KPH > 10)
+                if (myPlayerController.KPH > 10)
                 {
                     isMoving = true;
                 }
@@ -61,7 +70,7 @@ public class InputManager : MonoBehaviour
                 {
                     isMoving = false;
                 }
-                handbrake = (Input.GetKey(KeyCode.Space) && MyPlayerController.instance.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
+                handbrake = (Input.GetKey(KeyCode.Space) && myPlayerController.KPH > 30 && (horizontal > 0.8 || horizontal < -0.8)) ? true : false;
                 if (boostController.driftBoost || boostController.startBoost) boosting = true; else boosting = false;
             }
         }

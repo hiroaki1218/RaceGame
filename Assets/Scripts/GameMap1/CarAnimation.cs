@@ -8,6 +8,7 @@ public class CarAnimation : MonoBehaviour
 {
     [SerializeField] Animator _carAnimator;
     [SerializeField] Rigidbody _rigidBody;
+    public MyPlayerController myPlayerController;
     PhotonView myPV;
 
     private bool isMainScene;
@@ -23,6 +24,7 @@ public class CarAnimation : MonoBehaviour
         }
 
         myPV = GetComponent<PhotonView>();
+        myPlayerController = GetComponent<MyPlayerController>();
     }
 
     private void Update()
@@ -31,7 +33,7 @@ public class CarAnimation : MonoBehaviour
         {
             if (!isMainScene)
             {
-                if (MyPlayerController.instance.onGround)
+                if (myPlayerController.onGround)
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
@@ -43,7 +45,7 @@ public class CarAnimation : MonoBehaviour
             {
                 if (GameMap1Controller.isStartedMatch)
                 {
-                    if (MyPlayerController.instance.onGround)
+                    if (myPlayerController.onGround)
                     {
                         if (Input.GetKeyDown(KeyCode.Space))
                         {

@@ -168,6 +168,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
                 //Boost
                 _boostController = playerObject.GetComponent<BoostController>();
                 _boostController.inputmanager = playerObject.GetComponent<InputManager>(); 
+                //InputManager
+                InputManager.instance.myPlayerController = playerObject.GetComponent<MyPlayerController>();
                 GameObject toOtherUI = playerObject.transform.Find("toOtherUI").gameObject;
                 toOtherUI.SetActive(false);
                 _myHP = playerObject.GetComponent<MyHP>();

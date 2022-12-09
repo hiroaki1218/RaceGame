@@ -1834,6 +1834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde0799cf3498bb4381c7a3ae6c71e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myPlayerController: {fileID: 0}
   boostController: {fileID: 0}
   isMoving: 0
   vertical: 0
@@ -1983,6 +1984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carAnimator: {fileID: 7151783210943401458}
   _rigidBody: {fileID: 4798816342365032739}
+  myPlayerController: {fileID: 0}
 --- !u!95 &7151783210943401458
 Animator:
   serializedVersion: 4
