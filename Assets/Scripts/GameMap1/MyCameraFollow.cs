@@ -7,7 +7,7 @@ public class MyCameraFollow : MonoBehaviour
     public static MyCameraFollow instance;
     public InputManager inputmanager;
     [SerializeField] Vector3 offset;
-    public static Transform target;
+    public Transform target;
     private Camera mycamera;
     public float speed;
     public float localspeed;
