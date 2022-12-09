@@ -5,6 +5,7 @@ using UnityEngine;
 public class MyCameraFollow : MonoBehaviour
 {
     public static MyCameraFollow instance;
+    public MyPlayerController myPlayerController;
     public InputManager inputmanager;
     [SerializeField] Vector3 offset;
     public Transform target;
@@ -34,7 +35,8 @@ public class MyCameraFollow : MonoBehaviour
     {
         if (SpawnSystem.instance.isAllSpawned)
         {
-            speed = Mathf.Lerp(speed, MyPlayerController.instance.KPH / 2, Time.deltaTime);
+            Debug.Log("í«ê’äJén");
+            speed = Mathf.Lerp(speed, myPlayerController.KPH / 2, Time.deltaTime);
             localspeed = speed;
         }
 

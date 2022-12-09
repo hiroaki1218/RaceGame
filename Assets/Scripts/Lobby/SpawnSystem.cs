@@ -163,6 +163,7 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             {
                 //Camera(new)
                 MyCameraFollow.instance.target = playerObject.transform;
+                MyCameraFollow.instance.myPlayerController = playerObject.GetComponent<MyPlayerController>();
                 MyCameraFollow.instance.inputmanager = playerObject.GetComponent<InputManager>();
                 //Boost
                 _boostController = playerObject.GetComponent<BoostController>();
