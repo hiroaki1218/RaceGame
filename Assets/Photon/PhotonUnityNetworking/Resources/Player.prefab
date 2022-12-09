@@ -1859,16 +1859,17 @@ MonoBehaviour:
   - {fileID: 2264228347966352398}
   - {fileID: 9154811453348081052}
   - {fileID: 8003341284381411935}
-  handBrakeFrictionMultiplier: 2.25
-  enginePower: 1000
+  handBrakeFrictionMultiplier: 1.8
+  maxEnginePower: 800
+  enginePower: 800
   wheelsRPM: 0
   smothTime: 0.01
   KPH: 0
   brakePower: 1000
   thrust: 10000
   radius: 6
-  DownForceValue: 150
-  steeringMax: 35
+  DownForceValue: 200
+  steeringMax: 15
   slip:
   - 0
   - 0
@@ -1894,7 +1895,7 @@ MonoBehaviour:
   driftCount: 1
   currentdriftCount: 0
   driftTime: 0
-  maxdrifttime: 2.5
+  maxdrifttime: 1.5
   driftBoost: 0
   startBoost: 0
   canjustStartDash: 0

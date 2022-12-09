@@ -111,13 +111,13 @@ public class BoostController : MonoBehaviour
                 mydriftUI.SetActive(true);
 
                 driftTime += Time.deltaTime;
-                driftgauge.value = driftTime / 2.5f;
+                driftgauge.value = driftTime / maxdrifttime;
             }
             else
             {
                 mydriftUI.SetActive(false);
 
-                if (driftTime > 2.5f)
+                if (driftTime > maxdrifttime)
                 {
                     if (currentdriftCount < driftCount)
                     {
@@ -136,7 +136,7 @@ public class BoostController : MonoBehaviour
         //DriftBoost
         if (driftBoost)
         {
-            myrigidbody.AddForce(transform.forward * 1800);
+            myrigidbody.AddForce(transform.forward * 800);
         }
     }
 

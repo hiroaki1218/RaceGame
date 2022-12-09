@@ -61,6 +61,7 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
     //public float totalPower;
     //public AnimationCurve enginePower;
     //public float engineRPM;
+    public float maxEnginePower;
     public float enginePower;
     public float wheelsRPM;
     public float smothTime = 0.01f;
@@ -101,18 +102,31 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         //shifter();
         adjustTraction();
         checkWheelSpin();
+        deltaenginePower();
     }
 
+
+    private void deltaenginePower()
+    {
+        if(KPH > 100)
+        {
+            enginePower = enginePower / 2;
+        }
+        else
+        {
+            enginePower = maxEnginePower;
+        }
+    }
     //private void calculateEnginePower()
     //{
-        //wheelRPM();
-        //totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
-        //if(totalPower <= 0)
-        //{
-            //totalPower = -totalPower;
-        //}
-        //float velocity = 0.0f;
-        //engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
+    //wheelRPM();
+    //totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * inputManager.vertical;
+    //if(totalPower <= 0)
+    //{
+    //totalPower = -totalPower;
+    //}
+    //float velocity = 0.0f;
+    //engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smothTime);
     //}
 
     private void wheelRPM()
@@ -252,7 +266,17 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
                 wheels[i].sidewaysFriction = sidewaysFriction;
             }
             //AddForce
-            rigidbody.AddForce(transform.forward * -(KPH - 200) * 40);
+            rigidbody.AddForce(transform.forward * -(KPH - 120) * 100);
+            rigidbody.AddForce(-transform.forward * -(KPH - 120) * 30);
+
+            if (inputManager.horizontal > 0)
+            {
+                rigidbody.AddForce(-transform.right * -(KPH - 120) * 120);
+            }
+            else
+            {
+                rigidbody.AddForce(transform.right * -(KPH - 120) * 120);
+            }
         }
         else
         {
