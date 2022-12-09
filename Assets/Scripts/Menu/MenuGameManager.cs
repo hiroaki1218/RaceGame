@@ -3,6 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class MenuGameManager : MonoBehaviourPunCallbacks
 {
@@ -10,7 +11,9 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject MatchStartButton;
     [SerializeField] GameObject MatchCancelButton;
     [SerializeField] TextMeshProUGUI stateText;
+    [SerializeField] TMP_InputField playerCount;
     public static Photon.Realtime.Player[] allPlayers;
+    public byte maxplayer; 
     bool inRoom;
     bool isMatched;
 
@@ -21,6 +24,25 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
         inRoom = false;
         isMatched = false;
         stateText.text = null;
+    }
+
+    public void UpdateMaxPlayer()
+    {
+        if(playerCount.text != "-")
+        {
+            if (playerCount.text.Length != 0)
+            {
+                int _maxplayer = int.Parse(playerCount.text);
+                if (_maxplayer > 0)
+                {
+                    maxplayer = System.Convert.ToByte(_maxplayer);
+                }
+                else
+                {
+                    maxplayer = System.Convert.ToByte(1);
+                }
+            }
+        }
     }
 
     //マッチ開始ボタン押したとき
@@ -68,7 +90,7 @@ public class MenuGameManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         //部屋がなかったら自分で作る
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 1}, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxplayer }, TypedLobby.Default);
     }
 
     //もし二人だったらシーン移動
