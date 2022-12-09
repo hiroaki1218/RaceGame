@@ -161,6 +161,11 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             }
             else
             {
+                //MiniMap
+                if(SceneManager.GetActiveScene().name == "GameMap1")
+                {
+                    miniCameraScript.instance.MiniMapTarget = playerObject.transform;
+                }
                 //Camera(new)
                 MyCameraFollow.instance.target = playerObject.transform;
                 MyCameraFollow.instance.myPlayerController = playerObject.GetComponent<MyPlayerController>();
