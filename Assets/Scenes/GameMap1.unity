@@ -1358,8 +1358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00165ca6fa4525a499de817c6a6973ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myPlayerController: {fileID: 0}
   inputmanager: {fileID: 0}
   offset: {x: 0, y: 1, z: -4}
+  target: {fileID: 0}
   speed: 0.02112525
   localspeed: 0.02112525
   defaltFOV: 85
@@ -2224,7 +2226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0aa851515cd3747d6b3b3e461199a2ed, type: 2}
+  - {fileID: 2100000, guid: e9a63429238d87848b09beef92b8c18b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
