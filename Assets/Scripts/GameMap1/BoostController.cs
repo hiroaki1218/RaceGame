@@ -136,7 +136,7 @@ public class BoostController : MonoBehaviour
         //DriftBoost
         if (driftBoost)
         {
-            myrigidbody.AddForce(transform.forward * 800);
+            myrigidbody.AddForce(transform.forward * 1000);
         }
     }
 

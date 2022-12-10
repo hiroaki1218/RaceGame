@@ -15,6 +15,7 @@ public class MyCameraFollow : MonoBehaviour
     public float defaltFOV = 0,desiredFOV = 0;
     [Range(0,5)]public float smothTime = 0;
     public float speedchange;
+    private bool first;
 
     private void Awake()
     {
@@ -26,9 +27,16 @@ public class MyCameraFollow : MonoBehaviour
 
     private void Start()
     {
+        first = true;
         mycamera = GetComponent<Camera>();
         defaltFOV = mycamera.fieldOfView;
         speedchange = 1;
+    }
+
+    IEnumerator Waiting()
+    {
+        yield return new WaitForSeconds(1);
+        first = false;
     }
 
     private void FixedUpdate()
@@ -73,8 +81,17 @@ public class MyCameraFollow : MonoBehaviour
     {
         if(target != null)
         {
-            var targetPosition = target.TransformPoint(offset);
-            transform.position = Vector3.Lerp(transform.position, targetPosition, localspeed * Time.deltaTime);
+            if(first)
+            {
+                StartCoroutine(Waiting());
+                var targetPosition = target.TransformPoint(offset);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, 20 * Time.deltaTime);
+            }
+            else
+            {
+                var targetPosition = target.TransformPoint(offset);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, localspeed * Time.deltaTime);
+            } 
         }
     }
 

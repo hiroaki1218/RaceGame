@@ -112,6 +112,10 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
         {
             enginePower = enginePower / 2;
         }
+        else if (!inputManager.handbrake && (inputManager.horizontal > 0.3 || inputManager.horizontal < -0.3))
+        {
+            enginePower = enginePower / 1.1f;
+        }
         else
         {
             enginePower = maxEnginePower;

@@ -1896,7 +1896,7 @@ MonoBehaviour:
   driftCount: 1
   currentdriftCount: 0
   driftTime: 0
-  maxdrifttime: 1.5
+  maxdrifttime: 1.3
   driftBoost: 0
   startBoost: 0
   canjustStartDash: 0
@@ -1914,6 +1914,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacter: 0
+  _myhp: {fileID: 2508004880699401391}
+  _boostController: {fileID: 8606697708519095362}
 --- !u!114 &2508004880699401391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,8 +1928,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6272f3f2641649c4a892337785efb5b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  increaseHP: 4
   myHPBar: {fileID: 0}
   toOtherHPBar: {fileID: 0}
+  takeDamage: 0
   isMyPlayerAvatar: 0
 --- !u!114 &939419480663848631
 MonoBehaviour:

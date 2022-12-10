@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
 {
     private const float MaxHP = 100f;
-    public static float increaseHP = 4;
+    public float increaseHP = 4;
 
     [SerializeField] public Slider myHPBar = default;
     [SerializeField] public Slider toOtherHPBar = default;
     private float currentHP = MaxHP;
-    private float takeDamage;
+    public float takeDamage;
 
     PhotonView myPV;
     bool IsGetComponents;
