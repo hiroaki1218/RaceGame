@@ -53,6 +53,10 @@ MonoBehaviour:
   - ColorChange
   - ColorChangeMyCar
   - CurrentHPBarToOther
+  - mySmokeChange
+  - BoostSmokeAnime
+  - NormalSmokeAnime
+  - MoveSmokeAnime
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

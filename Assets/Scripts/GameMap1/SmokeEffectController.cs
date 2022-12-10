@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class SmokeEffectController : MonoBehaviour
+public class SmokeEffectController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] ParticleSystem[] SmokeEffect;
+    [SerializeField] GameObject normalSmokeEffect;
+    [SerializeField] GameObject driftingSmokeEffect;
+    [SerializeField] GameObject boostEffect;
+    [SerializeField] Transform EffectPosition;
     [SerializeField] InputManager inputmanager;
     [SerializeField] Color normalColor;
     [SerializeField] Color movingColor;
@@ -12,127 +17,96 @@ public class SmokeEffectController : MonoBehaviour
     [SerializeField] Color handbrake1Color;
     [SerializeField] Color handbrake2Color;
 
+    public PhotonView myPV;
+    public bool once;
+
     private void Start()
     {
-        for(int i=0; i< SmokeEffect.Length; i++)
-        {
-            SmokeEffect[i].Play();
-            ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-            em.rateOverTime = new ParticleSystem.MinMaxCurve(30);
-        }   
+        myPV = GetComponent<PhotonView>();
+        once = true;
+        normalSmokeEffect.SetActive(true);
+        driftingSmokeEffect.SetActive(false);
+        boostEffect.SetActive(false);
     }
 
     private void FixedUpdate()
     {
-        if (inputmanager.boosting || inputmanager.handbrake)
+        if (myPV.IsMine)
         {
-            BoostAndHandBrakeSmokeAnime();
-        }
-        else
-        {
-            NormalSmokeAnime();
-        }  
+            mySmokeChange();
+        } 
     }
 
-    private void NormalSmokeAnime()
+    
+    private void mySmokeChange()
     {
-        ParticleSystem.MinMaxGradient color = new ParticleSystem.MinMaxGradient();
-        color.mode = ParticleSystemGradientMode.Color;
-
-        //車が動いていたらパーティクル色チェン
-        if (inputmanager.isMoving)
-        {
-            for (int i = 0; i < SmokeEffect.Length; i++)
-            {
-                color.color = movingColor;
-                ParticleSystem.MainModule main = SmokeEffect[i].main;
-                main.startColor = color;
-
-                ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(60);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < SmokeEffect.Length; i++)
-            {
-                color.color = normalColor;
-                ParticleSystem.MainModule main = SmokeEffect[i].main;
-                main.startColor = color;
-
-                ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(50);
-            }
-        }
-    }
-
-    private void BoostAndHandBrakeSmokeAnime()
-    {
-        ParticleSystem.MinMaxGradient color = new ParticleSystem.MinMaxGradient();
-        color.mode = ParticleSystemGradientMode.Color;
-
         if (inputmanager.boosting)
         {
-            for (int i = 0; i < SmokeEffect.Length; i++)
-            {
-                color.color = boostingColor;
-                ParticleSystem.MainModule main = SmokeEffect[i].main;
-                main.startColor = color;
-
-                ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                em.rateOverTime = new ParticleSystem.MinMaxCurve(120);
-            }
+            myPV.RPC(nameof(BoostSmokeAnime), RpcTarget.All);
+        }
+        else if(inputmanager.handbrake || inputmanager.isMoving)
+        {
+            myPV.RPC(nameof(MoveSmokeAnime), RpcTarget.All);
         }
         else
         {
-            if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.6)
-            {
-                for (int i = 0; i < SmokeEffect.Length; i++)
-                {
-                    color.color = boostingColor;
-                    ParticleSystem.MainModule main = SmokeEffect[i].main;
-                    main.startColor = color;
-
-                    ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(120);
-                }
-            }
-            else if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.3)
-            {
-                for (int i = 0; i < SmokeEffect.Length; i++)
-                {
-                    color.color = handbrake2Color;
-                    ParticleSystem.MainModule main = SmokeEffect[i].main;
-                    main.startColor = color;
-
-                    ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(100);
-                }
-            }
-            else if(BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.15)
-            {
-                for (int i = 0; i < SmokeEffect.Length; i++)
-                {
-                    color.color = handbrake1Color;
-                    ParticleSystem.MainModule main = SmokeEffect[i].main;
-                    main.startColor = color;
-
-                    ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(80);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < SmokeEffect.Length; i++)
-                {
-                    color.color = movingColor;
-                    ParticleSystem.MainModule main = SmokeEffect[i].main;
-                    main.startColor = color;
-
-                    ParticleSystem.EmissionModule em = SmokeEffect[i].emission;
-                    em.rateOverTime = new ParticleSystem.MinMaxCurve(60);
-                }
-            }
+            myPV.RPC(nameof(NormalSmokeAnime), RpcTarget.All);
         }
+    }
+
+    [PunRPC]
+    private void NormalSmokeAnime()
+    {
+        normalSmokeEffect.SetActive(true);
+        driftingSmokeEffect.SetActive(false);
+    }
+
+    [PunRPC]
+    private void MoveSmokeAnime()
+    {
+        //車が動いていたらパーティクル色チェン
+        driftingSmokeEffect.SetActive(true);
+        normalSmokeEffect.SetActive(false);
+    }
+
+    private void HandBrakeSmokeAnime()
+    {
+
+        if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.6)
+        {
+            
+        }
+        else if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.3)
+        {
+            
+        }
+        else if (BoostController.instance.driftTime / BoostController.instance.maxdrifttime >= 0.15)
+        {
+            
+        }
+        else
+        {
+            
+        }
+    }
+
+    [PunRPC]
+    private void BoostSmokeAnime()
+    {
+        if (once)
+        {
+            boostEffect.SetActive(true);
+            driftingSmokeEffect.SetActive(false);
+            normalSmokeEffect.SetActive(false);
+            StartCoroutine(Waiting());
+            once = false;
+        }
+    }
+
+    IEnumerator Waiting()
+    {
+        yield return new WaitForSeconds(1);
+        boostEffect.SetActive(false);
+        once = true;
     }
 }

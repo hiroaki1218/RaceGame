@@ -147,6 +147,7 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             TextMeshProUGUI playerNameText = child.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             playerNameText.text = PlayerName;
 
+
             //Camera UI
             if(targetPlayer != PhotonNetwork.LocalPlayer)
             {

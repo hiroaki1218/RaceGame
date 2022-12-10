@@ -16,6 +16,8 @@ public class miniCameraScript : MonoBehaviour
 
     void LateUpdate()
     {
+        if (MiniMapTarget == null) return;
+
         transform.position = new Vector3(MiniMapTarget.position.x, transform.position.y, MiniMapTarget.position.z);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, MiniMapTarget.eulerAngles.y, transform.eulerAngles.z);
     }
