@@ -80,7 +80,6 @@ public class Ranking : MonoBehaviour
             foreach (var score in result.Leaderboard)
             {
                 totalscore = -1 * score.StatValue;
-                Debug.Log(totalscore);
                 for (int i = 1; i <= 5; i++)
                 {
                     if(i == 1)

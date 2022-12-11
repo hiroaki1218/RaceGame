@@ -108,17 +108,29 @@ public class MyPlayerController : MonoBehaviourPunCallbacks
 
     private void deltaenginePower()
     {
-        if(KPH > 100)
+        if(KPH > 110)
         {
-            enginePower = enginePower / 2;
+            enginePower = enginePower - 20;
+            if (enginePower < 0)
+            {
+                enginePower = 0;
+            }
         }
-        else if (!inputManager.handbrake && (inputManager.horizontal > 0.3 || inputManager.horizontal < -0.3))
+        else if (!inputManager.handbrake && (inputManager.horizontal > 0.8 || inputManager.horizontal < -0.8) && KPH > 30)
         {
-            enginePower = enginePower / 1.1f;
+            enginePower = enginePower - 15;
+            if(enginePower < 0)
+            {
+                enginePower = 0;
+            }
         }
         else
         {
-            enginePower = maxEnginePower;
+            enginePower += 5;
+            if(enginePower > maxEnginePower)
+            {
+                enginePower = maxEnginePower;
+            }
         }
     }
     //private void calculateEnginePower()

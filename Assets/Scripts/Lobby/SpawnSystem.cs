@@ -53,6 +53,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
+        //番号をカスタムプロパティに設定
+        SetMyNumber(myNumberInRoom);
         //選択したキャラの種類をカスタムプロパティに設定
         SetCharacterRole(CharacterRoleChange.instance.state);
         //色をカスタムプロパティに設定
@@ -66,6 +68,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         //名前をカスタムプロパティに設定
         SetPlayerName(Login.MyNickName);
         Debug.Log($"My Number is { myNumberInRoom }");
+        //番号をカスタムプロパティに設定
+        SetMyNumber(myNumberInRoom);
         //選択したキャラの種類をカスタムプロパティに設定
         SetCharacterRole(CharacterRoleChange.instance.state);
         //色をカスタムプロパティに設定
@@ -115,6 +119,15 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
+    //自分の番号をカスタムプロパティに設定
+    public void SetMyNumber(int mynumber)
+    {
+        var properties = new ExitGames.Client.Photon.Hashtable();
+        properties["M"] = mynumber;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+
     //カスタムプロパティから要素を取得し、全員に反映
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedColor)
     {
@@ -147,9 +160,15 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             TextMeshProUGUI playerNameText = child.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             playerNameText.text = PlayerName;
 
+            //MyNumber
+            if (SceneManager.GetActiveScene().name == "GameMap1")
+            {
+                int number = GetPlayerNumber(targetPlayer);
+                ArrowManager.instance.targetplayertext[number] = playerObject.transform.Find("MyNumber/Num/text").GetComponent<TextMeshProUGUI>();
+            }    
 
             //Camera UI
-            if(targetPlayer != PhotonNetwork.LocalPlayer)
+            if (targetPlayer != PhotonNetwork.LocalPlayer)
             {
                 GameObject myUI = playerObject.transform.Find("MyUI").gameObject;
                 //GameObject myCamera = playerObject.transform.Find("MyCamera").gameObject;
@@ -163,10 +182,11 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             else
             {
                 //MiniMap
-                if(SceneManager.GetActiveScene().name == "GameMap1")
-                {
-                    miniCameraScript.instance.MiniMapTarget = playerObject.transform;
-                }
+                //if(SceneManager.GetActiveScene().name == "GameMap1")
+                //{
+                    //miniCameraScript.instance.MiniMapTarget = playerObject.transform;
+                //}
+
                 //Camera(new)
                 MyCameraFollow.instance.target = playerObject.transform;
                 MyCameraFollow.instance.myPlayerController = playerObject.GetComponent<MyPlayerController>();
@@ -194,6 +214,12 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
     public int GetPlayerPickedCharacter(Photon.Realtime.Player player)
     {
         return (player.CustomProperties["R"] is int chr) ? chr : Random.Range(0,5);
+    }
+
+    //カスタムプロパティからプレイヤーの番号を返す
+    public int GetPlayerNumber(Photon.Realtime.Player player)
+    {
+        return (player.CustomProperties["M"] is int num) ? num : 0;
     }
 
     //スポーンしたかどうか
