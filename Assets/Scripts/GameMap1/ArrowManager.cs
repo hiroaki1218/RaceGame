@@ -28,15 +28,11 @@ public class ArrowManager : MonoBehaviour
     {
         if (SpawnSystem.instance.isAllSpawned)
         {
-            if (once)
+            for (int i = 0; i < targetplayertext.Length; i++)
             {
-                for (int i = 0; i < targetplayertext.Length; i++)
-                {
-                    if (targetplayertext[i] == null) break;
-                    targetplayertext[i].text = localplayernumber[i];
-                }
+                if (targetplayertext[i] == null) break;
+                targetplayertext[i].text = localplayernumber[i];
             }
-            once = false;
         }
     }
 }

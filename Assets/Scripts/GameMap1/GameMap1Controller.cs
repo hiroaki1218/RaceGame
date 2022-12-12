@@ -128,9 +128,12 @@ public class GameMap1Controller : MonoBehaviourPunCallbacks
         allReadyPlayers++;
         if (allReadyPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            StartCoroutine(StartCountDown());
+            photonView.RPC(nameof(StartCountDown), RpcTarget.AllViaServer);
+            //StartCoroutine(StartCountDown());
         }
     }
+
+    [PunRPC]
     IEnumerator StartCountDown()
     {
         //ÉçÅ[Éhí∑à¯Ç¢ÇΩéûä‘
