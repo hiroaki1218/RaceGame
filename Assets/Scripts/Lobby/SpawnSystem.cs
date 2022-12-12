@@ -164,7 +164,8 @@ public class SpawnSystem : MonoBehaviourPunCallbacks
             if (SceneManager.GetActiveScene().name == "GameMap1")
             {
                 int number = GetPlayerNumber(targetPlayer);
-                ArrowManager.instance.targetplayertext[number] = playerObject.transform.Find("MyNumber/Num/text").GetComponent<TextMeshProUGUI>();
+                playerObject.transform.Find("MyNumber/Color").GetComponent<Image>().color = ColorChange.instance.PLAYER_COLOR[colorIndex];
+                ArrowManager.instance.targetplayertext[number] = playerObject.transform.Find("MyNumber/Color/text").GetComponent<TextMeshProUGUI>();
             }    
 
             //Camera UI

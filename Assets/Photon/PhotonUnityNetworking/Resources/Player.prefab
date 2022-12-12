@@ -2962,7 +2962,7 @@ GameObject:
   - component: {fileID: 2464999578915189305}
   - component: {fileID: 2985699439933359276}
   m_Layer: 3
-  m_Name: Num
+  m_Name: Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
