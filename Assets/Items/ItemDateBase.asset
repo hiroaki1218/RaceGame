@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f12fc8613b2804489d9c9833d6900bd, type: 3}
+  m_Name: ItemDateBase
+  m_EditorClassIdentifier: 
+  itemList:
+  - type: 0
+    sprite: {fileID: 21300000, guid: c5abbe5b7e7e3d646a9aa71ba8eb7cc1, type: 3}
+    itemname: 
+  - type: 1
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 2
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 3
+    sprite: {fileID: 21300000, guid: c5abbe5b7e7e3d646a9aa71ba8eb7cc1, type: 3}
+    itemname: 
+  - type: 4
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 5
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 6
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 7
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 8
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 9
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 10
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 11
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 12
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 13
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 14
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 15
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 16
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 17
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
+  - type: 18
+    sprite: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+    itemname: 
