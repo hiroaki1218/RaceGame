@@ -17,6 +17,7 @@ public class UIRotate : MonoBehaviourPunCallbacks
 
             foreach (GameObject uis in AllUI)
             {
+                //UI‚ðMyCamera‚Ì‚Ù‚¤‚É‰ñ“]
                 uis.transform.LookAt(uis.transform.position + mainCameraTransform.rotation * Vector3.right,
                 mainCameraTransform.rotation * Vector3.up);
             }

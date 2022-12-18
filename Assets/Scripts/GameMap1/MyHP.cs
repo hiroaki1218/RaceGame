@@ -72,12 +72,12 @@ public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // 自身のアバターのスタミナを送信する
+            // 自身のアバターのHPを送信する
             stream.SendNext(currentHP);
         }
         else
         {
-            // 他プレイヤーのアバターのスタミナを受信する
+            // 他プレイヤーのアバターのHPを受信する
             currentHP = (float)stream.ReceiveNext();
         }
     }

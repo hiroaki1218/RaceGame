@@ -6,25 +6,53 @@ public class MyAudioController : MonoBehaviour
 {
     [SerializeField] AudioSource Normalaudiosource;
     [SerializeField] AudioSource Driftingaudiosource;
+    [SerializeField] AudioSource Specialaudiosource;
     [SerializeField] AudioClip BoostingClip;
 
     [Header("OtherScript")]
     [SerializeField] InputManager inputmanager;
+    [SerializeField] ItemGetAndSet itemgetandset;
 
     private bool isnormal;
     private bool isdrifting;
     private bool isboosting;
+    private bool isSpecial;
 
     private void Start()
     {
         isnormal = false;
         isdrifting = false;
-        isboosting = false; 
+        isboosting = false;
+        isSpecial = false;
     }
 
     void Update()
     {
-        if (inputmanager.boosting)
+        if (itemgetandset.isSpecial)
+        {
+            if (!isSpecial)
+            {
+                Specialaudiosource.Play();
+                isSpecial = true;
+            }
+
+            if (!Specialaudiosource.isPlaying)
+            {
+                itemgetandset.isSpecial = false;
+            }
+
+            //Normal
+            isnormal = false;
+            Normalaudiosource.Stop();
+
+            //Drifting
+            isdrifting = false;
+            Driftingaudiosource.Stop();
+
+            //Boosting
+            isboosting = false;
+        }
+        else if (inputmanager.boosting)
         {
             if (!isboosting)
             {
@@ -38,6 +66,10 @@ public class MyAudioController : MonoBehaviour
             //Drifting
             isdrifting = false;
             Driftingaudiosource.Stop();
+
+            //special
+            Specialaudiosource.Stop();
+            isSpecial = false;
         }
         else if (inputmanager.handbrake)
         {
@@ -52,15 +84,19 @@ public class MyAudioController : MonoBehaviour
 
             //Boosting
             isboosting = false;
+
+            //special
+            Specialaudiosource.Stop();
+            isSpecial = false;
         }
         else if (inputmanager.isMoving)
         {
             if (!isnormal)
             {
-                Normalaudiosource.volume = 1f;
                 Normalaudiosource.Play();
                 isnormal = true;
             }
+            Normalaudiosource.volume = 1f;
 
             //Drifting
             isdrifting = false;
@@ -68,6 +104,10 @@ public class MyAudioController : MonoBehaviour
 
             //Boosting
             isboosting = false;
+
+            //special
+            Specialaudiosource.Stop();
+            isSpecial = false;
         }
         else
         {
@@ -82,6 +122,10 @@ public class MyAudioController : MonoBehaviour
 
             //Boosting
             isboosting = false;
+
+            //special
+            Specialaudiosource.Stop();
+            isSpecial = false;
         }
     }
 }

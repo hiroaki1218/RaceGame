@@ -9,10 +9,12 @@ public class ItemGetAndSet : MonoBehaviour
     [SerializeField] public Items[] itemInSlot;
     [SerializeField] private Items item;
     private int itemChangeInt;
-    private int specialItemInt = 91;
+    private int specialItemInt = 70;
 
     private int recognizeSpecialItemInt;
     private int recognizeNormalItemInt;
+
+    public bool isSpecial;
     //総アイテム数19
     //回復:2,1 攻撃:7,1 防御:2,1 スピード:2,1 スペシャル:2
 
@@ -22,6 +24,8 @@ public class ItemGetAndSet : MonoBehaviour
         {
             itemSlot[i].sprite = null;
         }
+
+        isSpecial = false;
     }
 
     public void GetItem()
@@ -32,6 +36,9 @@ public class ItemGetAndSet : MonoBehaviour
         {
             //スペシャルのどれか
             recognizeSpecialItemInt = Random.Range(1, 7);
+
+            Debug.Log("スペシャル！");
+            isSpecial = true;
 
             switch (recognizeSpecialItemInt)
             {
@@ -59,6 +66,7 @@ public class ItemGetAndSet : MonoBehaviour
         {
             //普通のアイテムのどれか
             recognizeNormalItemInt = Random.Range(1, 14);
+
             switch (recognizeNormalItemInt)
             {
                 case 1:
@@ -103,9 +111,10 @@ public class ItemGetAndSet : MonoBehaviour
             }
         }
 
+        //最新のゲットしたアイテム
         Items getitem = ItemGenerater.instance.Spawn(item.type);
         Debug.Log("GetItem is" + item.type);
-        SetItem(getitem);
+        SetItem(getitem); 
     }
 
     public void SetItem(Items getitem)
@@ -150,6 +159,7 @@ public class ItemGetAndSet : MonoBehaviour
     {
         if (CanUseItem())
         {
+            //使ったアイテム
             Debug.Log(itemInSlot[0].type);
             RemoveItem(0);
             MoveItem();

@@ -31,6 +31,7 @@ public class ArrowManager : MonoBehaviour
             for (int i = 0; i < targetplayertext.Length; i++)
             {
                 if (targetplayertext[i] == null) break;
+                //l”•ªl‚»‚ê‚¼‚ê”Ô†‚ð‚Â‚¯‚é
                 targetplayertext[i].text = localplayernumber[i];
             }
         }
