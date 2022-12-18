@@ -59,6 +59,8 @@ MonoBehaviour:
   - MoveSmokeAnime
   - StartCountDown
   - TouchItemBox
+  - Active
+  - ActiveFalse
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
