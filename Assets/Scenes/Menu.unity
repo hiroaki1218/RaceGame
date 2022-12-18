@@ -10858,6 +10858,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3346877393659085681, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3628939599568629289, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
       propertyPath: outlineWidth
       value: 7
@@ -10963,6 +10967,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8211471154983191132, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553207413232611995, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

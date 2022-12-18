@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ItemGetAndSet : MonoBehaviour
 {
     [SerializeField] private Image[] itemSlot;
-    [SerializeField] private Items.Type[] itemtypeInSlot;
+    [SerializeField] public Items[] itemInSlot;
     [SerializeField] private Items item;
     private int itemChangeInt;
     private int specialItemInt = 91;
@@ -16,11 +16,19 @@ public class ItemGetAndSet : MonoBehaviour
     //総アイテム数19
     //回復:2,1 攻撃:7,1 防御:2,1 スピード:2,1 スペシャル:2
 
+    private void Start()
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            itemSlot[i].sprite = null;
+        }
+    }
+
     public void GetItem()
     {
         itemChangeInt = Random.Range(0, 100);
 
-        if(itemChangeInt >= specialItemInt)
+        if (itemChangeInt >= specialItemInt)
         {
             //スペシャルのどれか
             recognizeSpecialItemInt = Random.Range(1, 7);
@@ -95,14 +103,71 @@ public class ItemGetAndSet : MonoBehaviour
             }
         }
 
-        item = ItemGenerater.instance.Spawn(item.type);
-        
-        SetItem(item);
+        Items getitem = ItemGenerater.instance.Spawn(item.type);
+        Debug.Log("GetItem is" + item.type);
+        SetItem(getitem);
     }
 
     public void SetItem(Items getitem)
     {
-        itemSlot[0].sprite = getitem.sprite;
-        itemtypeInSlot[0] = getitem.type;
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (IsEmpty(i))
+            {
+                itemInSlot[i] = getitem;
+                itemSlot[i].sprite = itemInSlot[i].sprite;
+
+                break;
+            }
+        }
+    }
+
+    public bool CanUseItem()
+    {
+        if (itemSlot[0].sprite != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool IsEmpty(int i)
+    {
+        if (itemSlot[i].sprite == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void UseItem()
+    {
+        if (CanUseItem())
+        {
+            Debug.Log(itemInSlot[0].type);
+            RemoveItem(0);
+            MoveItem();
+        }
+    }
+
+    private void RemoveItem(int i)
+    {
+        itemSlot[i].sprite = null;
+    }
+
+    private void MoveItem()
+    {
+        if (itemSlot[1].sprite != null)
+        {
+            Items moveitem = itemInSlot[1];
+            RemoveItem(1);
+            SetItem(moveitem);
+        }
     }
 }
