@@ -10830,6 +10830,10 @@ PrefabInstance:
       propertyPath: ObservedComponents.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 76881019056158526, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 77275418161136796, guid: c3559eca47eb4fe43b6c18f8b024bacc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

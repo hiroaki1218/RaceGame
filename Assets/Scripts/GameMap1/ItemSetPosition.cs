@@ -6,8 +6,9 @@ using Photon.Pun;
 public class ItemSetPosition : MonoBehaviourPunCallbacks
 {
     [SerializeField] PhotonView myPV;
-    [SerializeField] GameObject thisItem;
-    [SerializeField] Items.Type type;
+    [Header("スプレッドシートの順で")]
+    [SerializeField] GameObject[] Item;
+
     [SerializeField] ItemGetAndSet _itemGetAndSet;
 
     private void FixedUpdate()
@@ -17,16 +18,7 @@ public class ItemSetPosition : MonoBehaviourPunCallbacks
         //アイテムが一つ以上あるとき
         if (_itemGetAndSet.CanUseItem())
         {
-            //自分のアイテムのタイプと使えるアイテムのタイプが一致しているとき
-            if(type == _itemGetAndSet.itemInSlot[0].type)
-            {
-                myPV.RPC(nameof(Active), RpcTarget.All);
-            }
-            else
-            {
-                //一致してないとき
-                myPV.RPC(nameof(ActiveFalse), RpcTarget.All);
-            }
+            myPV.RPC(nameof(Active), RpcTarget.All);
         }
         else
         {
@@ -38,12 +30,24 @@ public class ItemSetPosition : MonoBehaviourPunCallbacks
     [PunRPC]
     void Active()
     {
-        thisItem.SetActive(true);
+        int itemNum = (int)_itemGetAndSet.itemInSlot[0].type;
+        Item[itemNum].SetActive(true);
+
+        for (int i = 0; i < Item.Length; i++)
+        {
+            if(i != itemNum)
+            {
+                Item[i].SetActive(false);
+            }
+        }
     }
 
     [PunRPC]
     void ActiveFalse()
     {
-        thisItem.SetActive(false);
+        for(int i = 0; i < Item.Length; i++)
+        {
+            Item[i].SetActive(false);
+        } 
     }
 }

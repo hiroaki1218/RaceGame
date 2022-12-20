@@ -8,6 +8,7 @@ public class PlayerAbility : MonoBehaviour
     public KindOfCharacter myCharacter;
     [SerializeField] MyHP _myhp;
     [SerializeField] BoostController _boostController;
+    [SerializeField] MyAudioController _audiocontroller;
 
     private void Start()
     {
@@ -25,7 +26,8 @@ public class PlayerAbility : MonoBehaviour
         }
         else if(myCharacter == KindOfCharacter.Gambler)
         {
-            _myhp.takeDamage = _myhp.takeDamage * 1.3f;
+            _audiocontroller.isGambler = true;
+            _myhp.receiveDamage = _myhp.receiveDamage * 1.3f;
         }
         else if (myCharacter == KindOfCharacter.Proracer)
         {

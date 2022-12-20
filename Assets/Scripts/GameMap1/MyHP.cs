@@ -13,7 +13,7 @@ public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] public Slider myHPBar = default;
     [SerializeField] public Slider toOtherHPBar = default;
     private float currentHP = MaxHP;
-    public float takeDamage;
+    public float receiveDamage;
 
     PhotonView myPV;
     bool IsGetComponents;
@@ -38,18 +38,18 @@ public class MyHP : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (Input.GetKeyDown(KeyCode.O))
             {
-                takeDamage = 30;
+                receiveDamage = 30;
             }
 
-            if (takeDamage > 0)
+            if (receiveDamage > 0)
             {
                 // 入力があったら、スタミナを減少させる
-                currentHP = currentHP - takeDamage;
+                currentHP = currentHP - receiveDamage;
                 if(currentHP <= 0)
                 {
                     currentHP = 0;
                 }
-                takeDamage = 0;
+                receiveDamage = 0;
             }
             else
             {

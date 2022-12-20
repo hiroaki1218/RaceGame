@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MyAudioController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MyAudioController : MonoBehaviour
     [SerializeField] InputManager inputmanager;
     [SerializeField] ItemGetAndSet itemgetandset;
 
+    public bool isGambler;
     private bool isnormal;
     private bool isdrifting;
     private bool isboosting;
@@ -26,9 +28,13 @@ public class MyAudioController : MonoBehaviour
         isSpecial = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (itemgetandset.isSpecial)
+        if (!GameMap1Controller.isStartedMatch && SceneManager.GetActiveScene().name == "GameMap1")
+        {
+            return;
+        }
+        else if (itemgetandset.isSpecial && isGambler)
         {
             if (!isSpecial)
             {
