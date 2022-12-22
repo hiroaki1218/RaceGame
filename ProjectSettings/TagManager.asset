@@ -44,3 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: waku
+    uniqueID: 1549602239
+    locked: 0
+  - name: reel
+    uniqueID: 3946030531
+    locked: 0

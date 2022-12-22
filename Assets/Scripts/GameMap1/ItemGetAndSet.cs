@@ -5,14 +5,18 @@ using UnityEngine.UI;
 
 public class ItemGetAndSet : MonoBehaviour
 {
+    [SerializeField] private ItemReelController itemreelcontroller;
     [SerializeField] private Image[] itemSlot;
     [SerializeField] public Items[] itemInSlot;
     [SerializeField] private Items item;
     private int itemChangeInt;
-    private int specialItemInt = 70;
+    public int specialItemInt = 90;
 
     private int recognizeSpecialItemInt;
     private int recognizeNormalItemInt;
+
+    public int ItemNumber;
+    public bool isGetItem;
 
     public bool isSpecial;
     //総アイテム数19
@@ -20,10 +24,10 @@ public class ItemGetAndSet : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < itemSlot.Length; i++)
-        {
-            itemSlot[i].sprite = null;
-        }
+        //for (int i = 0; i < itemSlot.Length; i++)
+        //{
+            //itemSlot[i].sprite = null;
+        //}
 
         isSpecial = false;
     }
@@ -44,21 +48,27 @@ public class ItemGetAndSet : MonoBehaviour
             {
                 case 1:
                     item.type = Items.Type.Newcar;
+                    ItemNumber = 2;
                     break;
                 case 2:
                     item.type = Items.Type.GuidedMissile;
+                    ItemNumber = 5;
                     break;
                 case 3:
                     item.type = Items.Type.SuperCushion;
+                    ItemNumber = 13;
                     break;
                 case 4:
                     item.type = Items.Type.SelfDriving;
+                    ItemNumber = 16;
                     break;
                 case 5:
                     item.type = Items.Type.CheatCode;
+                    ItemNumber = 17;
                     break;
                 case 6:
                     item.type = Items.Type.YearEndJumbo;
+                    ItemNumber = 18;
                     break;
             }
         }
@@ -71,50 +81,66 @@ public class ItemGetAndSet : MonoBehaviour
             {
                 case 1:
                     item.type = Items.Type.Toolbox;
+                    ItemNumber = 0;
                     break;
                 case 2:
                     item.type = Items.Type.Recoveryoil;
+                    ItemNumber = 1;
                     break;
                 case 3:
                     item.type = Items.Type.RocketLauncher;
+                    ItemNumber = 3;
                     break;
                 case 4:
                     item.type = Items.Type.Thumbtack;
+                    ItemNumber = 4;
                     break;
                 case 5:
                     item.type = Items.Type.Digitalhack;
+                    ItemNumber = 6;
                     break;
                 case 6:
                     item.type = Items.Type.StickyBomb;
+                    ItemNumber = 7;
                     break;
                 case 7:
                     item.type = Items.Type.SoundCrackingSpeaker;
+                    ItemNumber = 8;
                     break;
                 case 8:
                     item.type = Items.Type.Smoke;
+                    ItemNumber = 9;
                     break;
                 case 9:
                     item.type = Items.Type.DOSAttack;
+                    ItemNumber = 10;
                     break;
                 case 10:
                     item.type = Items.Type.GlassShield;
+                    ItemNumber = 11;
                     break;
                 case 11:
                     item.type = Items.Type.TemperedGlassShield;
+                    ItemNumber = 12;
                     break;
                 case 12:
                     item.type = Items.Type.Nitro;
+                    ItemNumber = 14;
                     break;
                 case 13:
                     item.type = Items.Type.DoubleNitro;
+                    ItemNumber = 15;
                     break;
             }
         }
 
         //最新のゲットしたアイテム
+        Debug.Log(ItemNumber);
+        isGetItem = true;
+
         Items getitem = ItemGenerater.instance.Spawn(item.type);
         Debug.Log("GetItem is" + item.type);
-        SetItem(getitem); 
+        //SetItem(getitem); 
     }
 
     public void SetItem(Items getitem)
@@ -131,17 +157,17 @@ public class ItemGetAndSet : MonoBehaviour
         }
     }
 
-    public bool CanUseItem()
-    {
-        if (itemSlot[0].sprite != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    //public bool CanUseItem()
+    //{
+        //if (itemSlot[0].sprite != null)
+        //{
+            //return true;
+        //}
+        //else
+        //{
+            //return false;
+        //}
+    //}
 
     private bool IsEmpty(int i)
     {
@@ -157,13 +183,13 @@ public class ItemGetAndSet : MonoBehaviour
 
     public void UseItem()
     {
-        if (CanUseItem())
-        {
+        //if (CanUseItem())
+        //{
             //使ったアイテム
             Debug.Log(itemInSlot[0].type);
             RemoveItem(0);
             MoveItem();
-        }
+        //}
     }
 
     private void RemoveItem(int i)

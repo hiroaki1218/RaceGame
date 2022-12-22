@@ -9,6 +9,7 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] MyHP _myhp;
     [SerializeField] BoostController _boostController;
     [SerializeField] MyAudioController _audiocontroller;
+    [SerializeField] ItemGetAndSet _itemgetandset;
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class PlayerAbility : MonoBehaviour
         else if(myCharacter == KindOfCharacter.Gambler)
         {
             _audiocontroller.isGambler = true;
+            _itemgetandset.specialItemInt = 85;
             _myhp.receiveDamage = _myhp.receiveDamage * 1.3f;
         }
         else if (myCharacter == KindOfCharacter.Proracer)
@@ -35,11 +37,12 @@ public class PlayerAbility : MonoBehaviour
         }
         else if (myCharacter == KindOfCharacter.Bomber)
         {
-
+            //与えるダメージアップ
+            //攻撃系のアイテムに普通のアイテムとは別のタグをつけて生成
         }
         else if (myCharacter == KindOfCharacter.Hacker)
         {
-
+            //MiniMapにアイテム表示
         }
     }
 }
