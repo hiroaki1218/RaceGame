@@ -16,7 +16,8 @@ public class ItemGetAndSet : MonoBehaviour
     private int recognizeNormalItemInt;
 
     public int ItemNumber;
-    public bool isGetItem;
+    public bool isGetItemSlot1;
+    public bool isGetItemSlot2;
 
     public bool isSpecial;
     //総アイテム数19
@@ -136,74 +137,38 @@ public class ItemGetAndSet : MonoBehaviour
 
         //最新のゲットしたアイテム
         Debug.Log(ItemNumber);
-        isGetItem = true;
+        if(itemreelcontroller.nextItemSlot == 1)
+        {
+            itemreelcontroller.ItemNumberSlot1 = ItemNumber;
+            itemreelcontroller.satItemSlot1 = false;
+            isGetItemSlot1 = true;
+        }
+        else if(itemreelcontroller.nextItemSlot == 2)
+        {
+            itemreelcontroller.ItemNumberSlot2 = ItemNumber;
+            itemreelcontroller.satItemSlot2 = false;
+            isGetItemSlot2 = true;
+        }
 
         Items getitem = ItemGenerater.instance.Spawn(item.type);
         Debug.Log("GetItem is" + item.type);
-        //SetItem(getitem); 
+        SetItem(getitem); 
     }
 
     public void SetItem(Items getitem)
     {
-        for (int i = 0; i < itemSlot.Length; i++)
+        if(itemreelcontroller.nextItemSlot == 1)
         {
-            if (IsEmpty(i))
-            {
-                itemInSlot[i] = getitem;
-                itemSlot[i].sprite = itemInSlot[i].sprite;
-
-                break;
-            }
-        }
-    }
-
-    //public bool CanUseItem()
-    //{
-        //if (itemSlot[0].sprite != null)
-        //{
-            //return true;
-        //}
-        //else
-        //{
-            //return false;
-        //}
-    //}
-
-    private bool IsEmpty(int i)
-    {
-        if (itemSlot[i].sprite == null)
+            itemInSlot[0] = getitem;
+        } 
+        else if(itemreelcontroller.nextItemSlot == 2)
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            itemInSlot[1] = getitem;
         }
     }
 
     public void UseItem()
     {
-        //if (CanUseItem())
-        //{
-            //使ったアイテム
-            Debug.Log(itemInSlot[0].type);
-            RemoveItem(0);
-            MoveItem();
-        //}
-    }
-
-    private void RemoveItem(int i)
-    {
-        itemSlot[i].sprite = null;
-    }
-
-    private void MoveItem()
-    {
-        if (itemSlot[1].sprite != null)
-        {
-            Items moveitem = itemInSlot[1];
-            RemoveItem(1);
-            SetItem(moveitem);
-        }
+        itemreelcontroller.UseItem();
     }
 }
