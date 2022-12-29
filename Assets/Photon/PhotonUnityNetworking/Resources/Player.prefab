@@ -3080,6 +3080,7 @@ MonoBehaviour:
   isGetItemSlot1: 0
   isGetItemSlot2: 0
   isSpecial: 0
+  gotItemFirst: 0
 --- !u!114 &7897915598908055933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5860,6 +5861,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7373c34cc7c45c241b95dda44dca5875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemObjects:
+  - {fileID: 2098629625492549987}
+  - {fileID: 4982036731173727009}
+  - {fileID: 6098757121868711479}
+  - {fileID: 7539712948971053927}
+  - {fileID: 7505079821902949318}
+  - {fileID: 5630576403658900158}
+  - {fileID: 249561714189634000}
+  - {fileID: 6450101456067398118}
+  - {fileID: 2354986022508695325}
+  - {fileID: 7201868508781070531}
+  - {fileID: 5978561798104798847}
+  - {fileID: 7836082458093565011}
+  - {fileID: 7792938258174444374}
+  - {fileID: 152471480443603238}
+  - {fileID: 6568619614995306337}
+  - {fileID: 488058986520582759}
+  - {fileID: 5677208379805800712}
+  - {fileID: 1169483826105627238}
+  - {fileID: 3854899921187960467}
+  itemgetandset: {fileID: 537033266077608450}
+  itemreelcontroller: {fileID: 7897915598908055933}
 --- !u!1 &8581568443418413083
 GameObject:
   m_ObjectHideFlags: 0

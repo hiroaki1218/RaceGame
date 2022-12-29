@@ -61,6 +61,8 @@ MonoBehaviour:
   - TouchItemBox
   - Active
   - ActiveFalse
+  - SetActiveFalseItem
+  - SetActiveTrueItem
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

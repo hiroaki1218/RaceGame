@@ -20,6 +20,7 @@ public class ItemGetAndSet : MonoBehaviour
     public bool isGetItemSlot2;
 
     public bool isSpecial;
+    public bool gotItemFirst;
     //総アイテム数19
     //回復:2,1 攻撃:7,1 防御:2,1 スピード:2,1 スペシャル:2
 
@@ -35,6 +36,7 @@ public class ItemGetAndSet : MonoBehaviour
 
     public void GetItem()
     {
+        gotItemFirst = true;
         itemChangeInt = Random.Range(0, 100);
 
         if (itemChangeInt >= specialItemInt)
