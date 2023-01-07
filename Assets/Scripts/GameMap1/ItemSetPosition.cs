@@ -24,10 +24,21 @@ public class ItemSetPosition : MonoBehaviourPunCallbacks
         if (SceneManager.GetActiveScene().name == "Menu") return;
         if (!itemgetandset.gotItemFirst) return;
 
-        itemnum = (int)itemgetandset.itemInSlot[0].type;
+        if(itemgetandset.itemInSlot[0] != null)
+        {
+            itemnum = (int)itemgetandset.itemInSlot[0].type;
+        }
+        
         if (itemreelcontroller.satItemSlot1)
         {
             photonView.RPC(nameof(SetActiveTrueItem), RpcTarget.All);
+        }
+        else
+        {
+            for (int i = 0; i < ItemObjects.Length; i++)
+            {
+                photonView.RPC(nameof(SetActiveFalseItem), RpcTarget.All, i);
+            }  
         }
         
 
